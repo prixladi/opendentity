@@ -7,7 +7,6 @@
         public const string _AccessTokenDuration = "ACCESS_TOKEN_DURATION";
         public const string _RefreshTokenDuration = "REFRESH_TOKEN_DURATION";
 
-        public const string _InitialAdminName = "INITIAL_ADMIN_NAME";
-        public const string _InitialAdminPassword = "INITIAL_ADMIN_PASSWORD";
+        public const string _InitFilePath = "INIT_FILE_PATH";
     }
 }

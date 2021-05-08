@@ -4,10 +4,12 @@ using OpenIddict.Abstractions;
 using Shamyr.Opendentity.Database;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Service.OpenId;
+using Shamyr.Opendentity.Service.OpenId.Factories;
+using Shamyr.Opendentity.Service.OpenId.GrantValidators;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    public static partial class ServiceCollectionExtensions
     {
         public static IServiceCollection AddOpenId(this IServiceCollection services, Action<OpenIdBuilder>? setupBuilder = null)
         {
@@ -49,6 +51,15 @@ namespace Microsoft.Extensions.DependencyInjection
                   opt.UseAspNetCore();
               });
 
+            services.Scan(s =>
+            {
+                s.FromAssemblyOf<OpenIdBuilder>()
+                  .AddClasses(c => c.AssignableTo(typeof(IGrantHandler)))
+                  .AsImplementedInterfaces()
+                  .WithTransientLifetime();
+            });
+            services.AddTransient<IGrantHandlerFactory, GrantHandlerFactory>();
+
             return services;
         }
 
@@ -59,13 +70,16 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.ClaimsIdentity.UserNameClaimType = OpenIddictConstants.Claims.Name;
                 options.ClaimsIdentity.UserIdClaimType = OpenIddictConstants.Claims.Subject;
                 options.ClaimsIdentity.RoleClaimType = OpenIddictConstants.Claims.Role;
+
+                options.User.RequireUniqueEmail = true;
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            }).AddIdentityCookies();
+            services.AddAuthentication()
+              .AddGoogle(x =>
+              {
+                  x.ClientId = "779901881966-s9dvobvmr7d4for8g7huv874nap25jhb.apps.googleusercontent.com";
+                  x.ClientSecret = "kn6rf0i2SHlyzMCXqfiAv71H";
+              });
 
             services.AddIdentityCore<ApplicationUser>(opt =>
             {
@@ -73,8 +87,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
             })
-              .AddRoles<ApplicationRole>()
               .AddSignInManager<SignInManager<ApplicationUser>>()
+              .AddRoles<ApplicationRole>()
+              .AddRoleManager<RoleManager<ApplicationRole>>()
               .AddEntityFrameworkStores<DatabaseContext>()
               .AddDefaultTokenProviders();
 

@@ -19,10 +19,8 @@ namespace Shamyr
                 throw new ArgumentNullException(nameof(variableName));
 
             var value = Environment.GetEnvironmentVariable(variableName);
-            if (value == null)
-            {
+            if (value is null)
                 throw new InvalidOperationException($"Variable with name '{variableName}' doesn't exist in current environment.");
-            }
 
             return transform(value);
         }
@@ -33,10 +31,8 @@ namespace Shamyr
                 throw new ArgumentNullException(nameof(variableName));
 
             var value = Environment.GetEnvironmentVariable(variableName);
-            if (value == null)
-            {
+            if (value is null)
                 throw new InvalidOperationException($"Variable with name '{variableName}' doesn't exist in current environment.");
-            }
 
             return int.Parse(value);
         }
@@ -47,10 +43,8 @@ namespace Shamyr
                 throw new ArgumentNullException(nameof(variableName));
 
             var value = Environment.GetEnvironmentVariable(variableName);
-            if (value == null)
-            {
+            if (value is null)
                 throw new InvalidOperationException($"Variable with name '{variableName}' doesn't exist in current environment.");
-            }
 
             return TimeSpan.Parse(value);
         }
@@ -93,6 +87,30 @@ namespace Shamyr
                 return defaultValue;
 
             return transform(value);
+        }
+
+        public static TimeSpan? TryGetTimeSpan(string variableName)
+        {
+            if (variableName is null)
+                throw new ArgumentNullException(nameof(variableName));
+
+            var value = Environment.GetEnvironmentVariable(variableName);
+            if (value is null)
+                return null;
+
+            return TimeSpan.Parse(value);
+        }
+
+        public static TimeSpan TryGetTimeSpan(string variableName, TimeSpan defaultValue)
+        {
+            if (variableName is null)
+                throw new ArgumentNullException(nameof(variableName));
+
+            var value = Environment.GetEnvironmentVariable(variableName);
+            if (value is null)
+                return defaultValue;
+
+            return TimeSpan.Parse(value);
         }
     }
 }

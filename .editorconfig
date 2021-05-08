@@ -67,8 +67,7 @@ dotnet_naming_rule.field_rule.symbols                          = field_symbols
 dotnet_naming_rule.field_rule.style                            = field_style
 dotnet_naming_symbols.field_symbols.applicable_kinds           = field 
 dotnet_naming_symbols.field_symbols.applicable_accessibilities = private, protected
-dotnet_naming_style.field_style.capitalization                 = pascal_case 
-dotnet_naming_style.field_style.required_prefix                = f
+dotnet_naming_style.field_style.capitalization                 = cammel_case 
 # ASYNC METHODS
 dotnet_naming_rule.async_method_rule.severity                         = error 
 dotnet_naming_rule.async_method_rule.symbols                          = async_method_symbols 

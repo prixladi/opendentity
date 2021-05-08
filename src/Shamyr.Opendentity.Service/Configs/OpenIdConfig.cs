@@ -1,4 +1,5 @@
-﻿using Shamyr.Opendentity.Service.OpenId;
+﻿using System;
+using Shamyr.Opendentity.Service.OpenId;
 
 namespace Shamyr.Opendentity.Service.Configs
 {
@@ -6,8 +7,8 @@ namespace Shamyr.Opendentity.Service.Configs
     {
         public static void Setup(OpenIdBuilder builder)
         {
-            builder.AccessTokenDuration = EnvVariable.GetTimeSpan(EnvVariables._AccessTokenDuration);
-            builder.RefreshTokenDuration = EnvVariable.GetTimeSpan(EnvVariables._RefreshTokenDuration);
+            builder.AccessTokenDuration = EnvVariable.TryGetTimeSpan(EnvVariables._AccessTokenDuration, TimeSpan.FromMinutes(15));
+            builder.RefreshTokenDuration = EnvVariable.TryGetTimeSpan(EnvVariables._RefreshTokenDuration, TimeSpan.FromDays(7));
         }
     }
 }

@@ -1,19 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shamyr.Opendentity.Database;
-using Shamyr.Opendentity.Database.Entities;
+﻿using Shamyr.Opendentity.Database;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    public static partial class ServiceCollectionExtensions
     {
-        public static void AddDatabase(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddDatabase<TConfig>(this IServiceCollection services)
+            where TConfig : class, IDatabaseConfig
         {
-            services.AddDbContext<DatabaseContext>(opt =>
-            {
-                opt.UseNpgsql(connectionString);
-                opt.UseOpenIddict<Application, Authorization, Scope, Token, string>();
-                opt.UseSnakeCaseNamingConvention();
-            });
+            services.AddDbContext<DatabaseContext>();
+            services.AddTransient<IDatabaseConfig, TConfig>();
+
+            return services;
         }
     }
 }

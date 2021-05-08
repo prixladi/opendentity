@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shamyr.AspNetCore.Handlers.Exceptions;
 using Shamyr.Opendentity.Service.OpenId.Exceptions;
 

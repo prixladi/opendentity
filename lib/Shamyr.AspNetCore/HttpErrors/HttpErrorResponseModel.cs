@@ -2,7 +2,7 @@
 
 namespace Shamyr.AspNetCore.HttpErrors
 {
-    public record HttpResponseModel
+    public record HttpErrorResponseModel
     {
         public string? Message { get; init; }
         public ICollection<ErrorModel>? Errors { get; init; }

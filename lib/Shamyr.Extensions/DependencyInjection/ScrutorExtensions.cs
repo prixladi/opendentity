@@ -1,5 +1,4 @@
 ﻿using Scrutor;
-using Shamyr.DependencyInjection;
 
 namespace Shamyr.Extensions.DependencyInjection
 {

@@ -93,6 +93,18 @@ namespace Shamyr.Opendentity.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "settings",
+                columns: table => new
+                {
+                    key = table.Column<string>(type: "text", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_settings", x => x.key);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -287,7 +299,8 @@ namespace Shamyr.Opendentity.Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
-                column: "normalized_email");
+                column: "normalized_email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -351,6 +364,9 @@ namespace Shamyr.Opendentity.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
+
+            migrationBuilder.DropTable(
+                name: "settings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

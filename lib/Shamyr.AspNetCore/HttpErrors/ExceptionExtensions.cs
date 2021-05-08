@@ -10,7 +10,7 @@ namespace Shamyr.AspNetCore.HttpErrors
             if (exception is null)
                 throw new ArgumentNullException(nameof(exception));
 
-            var errorResponse = new HttpResponseModel
+            var errorResponse = new HttpErrorResponseModel
             {
                 Message = exception.GetType().Name,
                 Errors = new ErrorModel[]

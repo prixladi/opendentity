@@ -334,6 +334,7 @@ namespace Shamyr.Opendentity.Database.Migrations
                         .HasName("pk_asp_net_users");
 
                     b.HasIndex("NormalizedEmail")
+                        .IsUnique()
                         .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
@@ -446,6 +447,22 @@ namespace Shamyr.Opendentity.Database.Migrations
                         .HasDatabaseName("ix_open_iddict_scopes_name");
 
                     b.ToTable("OpenIddictScopes");
+                });
+
+            modelBuilder.Entity("Shamyr.Opendentity.Database.Entities.Settings", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasColumnType("text")
+                        .HasColumnName("key");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
+                    b.HasKey("Key")
+                        .HasName("pk_settings");
+
+                    b.ToTable("settings");
                 });
 
             modelBuilder.Entity("Shamyr.Opendentity.Database.Entities.Token", b =>

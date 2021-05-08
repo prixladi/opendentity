@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Shamyr.AspNetCore.Handlers.Exceptions;
-using Shamyr.Factories;
+using Shamyr.Extensions.Factories;
 
 namespace Shamyr.AspNetCore.Factories
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Shamyr.DependencyInjection
+namespace Shamyr.Extensions.DependencyInjection
 {
   [AttributeUsage(AttributeTargets.Class)]
   public abstract class LifetimeAttribute: Attribute

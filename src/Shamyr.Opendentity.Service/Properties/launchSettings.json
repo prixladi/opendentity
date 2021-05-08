@@ -3,18 +3,21 @@
   "profiles": {
     "Shamyr.Opendentity.Service": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_CONNECTION_STRING": "Host=localhost;Database=opendentity;Username=admin;Password=password",
+        "INIT_FILE_PATH": "InitData.json",
+        "DATABASE_CONNECTION_STRING": "Host=localhost;Database=idnetity;Username=admin;Password=password",
         "ACCESS_TOKEN_DURATION": "00:10:00",
-        "REFRESH_TOKEN_DURATION": "14.00:00:00",
-        "INITIAL_ADMIN_NAME": "admin",
-        "INITIAL_ADMIN_PASSWORD": "password123"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "REFRESH_TOKEN_DURATION": "14.00:00:00"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "https://localhost:44381"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }

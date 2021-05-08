@@ -1,33 +1,31 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenIddict.Abstractions;
-using OpenIddict.Core;
 using Shamyr.Opendentity.Database;
-using Shamyr.Opendentity.Database.Entities;
-using static OpenIddict.Abstractions.OpenIddictConstants;
+using Shamyr.Opendentity.Service.CQRS.Commands;
 
 namespace Shamyr.Opendentity.Service.HostedServices
 {
     public class DbInitializationHostedService: IHostedService
     {
-        private readonly IServiceProvider fServiceProvider;
+        private readonly IServiceProvider serviceProvider;
 
         public DbInitializationHostedService(IServiceProvider serviceProvider)
         {
-            fServiceProvider = serviceProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = fServiceProvider.CreateScope();
+            using (var scope = serviceProvider.CreateScope())
+                await MigrateAsync(scope.ServiceProvider, cancellationToken);
 
-            await MigrateAsync(scope.ServiceProvider, cancellationToken);
-            await InitializeAsync(scope.ServiceProvider, cancellationToken);
+            using (var scope = serviceProvider.CreateScope())
+                await InitializeAsync(scope.ServiceProvider, cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -43,28 +41,8 @@ namespace Shamyr.Opendentity.Service.HostedServices
 
         private async Task InitializeAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-            if (await roleManager.RoleExistsAsync(Constants._AdminRole))
-                return;
-
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var appManager = serviceProvider.GetRequiredService<OpenIddictApplicationManager<Application>>();
-
-            await roleManager.CreateAsync(new ApplicationRole(Constants._AdminRole));
-
-            await appManager.CreateAsync(new OpenIddictApplicationDescriptor
-            {
-                ClientId = "default",
-                Permissions =
-                {
-                    Permissions.Endpoints.Token,
-                    Permissions.GrantTypes.RefreshToken,
-                    Permissions.GrantTypes.Password
-                }
-            }, cancellationToken);
-
-            var user = new ApplicationUser { UserName = "admin" };
-            await userManager.CreateAsync(user, "Pass@word1");
+            var sender = serviceProvider.GetRequiredService<ISender>();
+            await sender.Send(new InitializeDbCommand(), cancellationToken);
         }
     }
 }

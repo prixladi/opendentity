@@ -16,18 +16,18 @@ namespace Shamyr.Opendentity.Service.OpenId.GrantValidators
 {
     public class RefreshTokenGrantHandler: IGrantHandler
     {
-        private readonly SignInManager<ApplicationUser> fSignInManager;
-        private readonly UserManager<ApplicationUser> fUserManager;
-        private readonly IHttpContextAccessor fHttpContextAccessor;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public RefreshTokenGrantHandler(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IHttpContextAccessor httpContextAccessor)
         {
-            fSignInManager = signInManager;
-            fUserManager = userManager;
-            fHttpContextAccessor = httpContextAccessor;
+            this.signInManager = signInManager;
+            this.userManager = userManager;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public bool CanHandle(OpenIddictRequest request)
@@ -37,18 +37,18 @@ namespace Shamyr.Opendentity.Service.OpenId.GrantValidators
 
         public async Task<ClaimsPrincipal> HandleAsync(OpenIddictRequest request, CancellationToken cancellationToken)
         {
-            if (fHttpContextAccessor.HttpContext == null)
+            if (httpContextAccessor.HttpContext == null)
                 throw new InvalidOperationException("Unable to retrieve HttpContext from HttpContextAccessor.");
 
-            var result = await fHttpContextAccessor.HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            var user = await fUserManager.GetUserAsync(result.Principal);
-            if (user == null)
+            var result = await httpContextAccessor.HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            var user = await userManager.GetUserAsync(result.Principal);
+            if (user == null || user.Disabled)
                 throw Forbidden("The refresh token is no longer valid.");
 
-            if (!await fSignInManager.CanSignInAsync(user))
+            if (!await signInManager.CanSignInAsync(user))
                 throw Forbidden("The user is no longer allowed to sign in.");
 
-            var principal = await fSignInManager.CreateUserPrincipalAsync(user);
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
 
             foreach (var claim in principal.Claims)
                 claim.SetDestinations(Utils.GetClaimDestinations(claim));

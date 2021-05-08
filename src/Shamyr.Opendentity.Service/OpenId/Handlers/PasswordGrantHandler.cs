@@ -9,19 +9,20 @@ using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Service.OpenId.Exceptions;
+
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Shamyr.Opendentity.Service.OpenId.GrantValidators
 {
     public class PasswordGrantHandler: IGrantHandler
     {
-        private readonly SignInManager<ApplicationUser> fSignInManager;
-        private readonly UserManager<ApplicationUser> fUserManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public PasswordGrantHandler(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
-            fSignInManager = signInManager;
-            fUserManager = userManager;
+            this.signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         public bool CanHandle(OpenIddictRequest request)
@@ -31,15 +32,17 @@ namespace Shamyr.Opendentity.Service.OpenId.GrantValidators
 
         public async Task<ClaimsPrincipal> HandleAsync(OpenIddictRequest request, CancellationToken cancellationToken)
         {
-            var user = await fUserManager.FindByNameAsync(request.Username);
-            if (user == null)
+            var isEmailLogin = IsEmailLogin(request);
+
+            var user = isEmailLogin ? await userManager.FindByEmailAsync(request.Username) : await userManager.FindByNameAsync(request.Username);
+            if (user == null || user.Disabled)
                 throw Forbidden();
 
-            var result = await fSignInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!result.Succeeded)
                 throw Forbidden();
 
-            var principal = await fSignInManager.CreateUserPrincipalAsync(user);
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
             principal.SetScopes(request.GetScopes());
 
             foreach (var claim in principal.Claims)
@@ -53,10 +56,20 @@ namespace Shamyr.Opendentity.Service.OpenId.GrantValidators
             var properties = new AuthenticationProperties(new Dictionary<string, string?>
             {
                 [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The username or password is invalid."
+                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The username/email or password is invalid."
             });
 
             return new ForbiddenException(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
+        }
+
+        private static bool IsEmailLogin(OpenIddictRequest request)
+        {
+            var param = request.GetParameter("logByEmail");
+
+            if (!param.HasValue)
+                return false;
+
+            return (bool)param;
         }
     }
 }

@@ -1,0 +1,17 @@
+﻿{
+  "Users": [
+    {
+      "UserName": "Admin",
+      "Email": "elix78963@gmail.com",
+      "FirstName": "Ladislav",
+      "LastName": "Prix",
+      "Password":  "Pass@word1",
+      "IsAdmin": true
+    }
+  ],
+  "Applications": [
+    {
+      "ClientId": "default"
+    }
+  ]
+}

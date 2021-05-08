@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Shamyr.DependencyInjection
+namespace Shamyr.Extensions.DependencyInjection
 {
   public sealed class TransientAttribute: LifetimeAttribute
   {

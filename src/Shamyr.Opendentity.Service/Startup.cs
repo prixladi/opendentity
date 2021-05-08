@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Shamyr.AspNetCore.Configs;
 using Shamyr.Opendentity.Service.Configs;
-using Shamyr.Opendentity.Service.HostedServices;
 
 namespace Shamyr.Opendentity.Service
 {
@@ -15,15 +14,18 @@ namespace Shamyr.Opendentity.Service
             services.AddControllers(MvcConfig.Setup)
                 .AddJsonOptions(MvcConfig.SetupJson);
 
-            services.AddDatabase(EnvVariable.Get(EnvVariables._DatabaseConnectionString));
-            services.AddHostedService<DbInitializationHostedService>();
+            services.AddDatabase<DatabaseConfig>()
+                .AddDatabaseInit<DatabaseInitConfig>();
 
             services.AddOpenId(OpenIdConfig.Setup)
                 .AddIdentity();
 
             services.AddLogging(LoggingConfig.Setup);
-            services.AddMediatR(typeof(Startup));
+
+            services.AddMediatorPipeline();
+
             services.AddExceptionHandling(typeof(Startup).Assembly);
+
             services.AddSwaggerGen(SwaggerConfig.SetupSwaggerGen);
         }
 
