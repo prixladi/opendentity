@@ -5,13 +5,17 @@
       "commandName": "Project",
       "environmentVariables": {
         "INIT_FILE_PATH": "InitData.json",
-        "DATABASE_CONNECTION_STRING": "Host=localhost;Database=idnetity;Username=admin;Password=password",
+        "DATABASE_CONNECTION_STRING": "Host=localhost;Database=identity_opendentity;Username=admin;Password=password",
         "ACCESS_TOKEN_DURATION": "00:10:00",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "REFRESH_TOKEN_DURATION": "14.00:00:00"
+        "REFRESH_TOKEN_DURATION": "14.00:00:00",
+        "EMAIL_SERVER_URL": "http://server.ladislavprix.cz/sendMail.php",
+        "EMAIL_SENDER_ADDRESS": "openiddict@ladislavprix.cz",
+        "REQUIRE_VERIFIED_ACCOUNT": "true",
+        "PORTAL_URL": "http://localhost"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:44381"
+      "applicationUrl": "https://localhost:5000"
     },
     "Docker": {
       "commandName": "Docker",

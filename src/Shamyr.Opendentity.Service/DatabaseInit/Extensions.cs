@@ -16,10 +16,11 @@ namespace Shamyr.Opendentity.Service.DatabaseInit
             return new ApplicationUser(dto.UserName)
             {
                 UserName = dto.UserName,
-                Email = dto.Email, 
+                Email = dto.Email,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                ImageUrl = dto.ImageUrl
+                ImageUrl = dto.ImageUrl,
+                EmailConfirmed = true
             };
         }
 
@@ -31,12 +32,31 @@ namespace Shamyr.Opendentity.Service.DatabaseInit
             return new OpenIddictApplicationDescriptor
             {
                 ClientId = dtos.ClientId,
-                Permissions = 
+                Permissions =
                 {
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.RefreshToken,
-                    Permissions.GrantTypes.Password
+                    Permissions.GrantTypes.Password,
+                    Permissions.Scopes.Address,
+                    Permissions.Scopes.Email,
+                    Permissions.Scopes.Phone,
+                    Permissions.Scopes.Profile,
+                    Permissions.Scopes.Roles
                 }
+            };
+        }
+
+        public static EmailTemplate ToTemplate(this EmailTemplateDto dto, EmailTemplateType type)
+        {
+            if (dto is null)
+                throw new System.ArgumentNullException(nameof(dto));
+
+            return new EmailTemplate
+            {
+                Type = type,
+                Subject = dto.Subject,
+                ContentTemplate = dto.ContentTemplate,
+                IsHtml = dto.IsHtml
             };
         }
 

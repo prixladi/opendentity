@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Shamyr.AspNetCore.Handlers.Exceptions
 {
-    public abstract class ExceptionHandlerBase<TException> : IExceptionHandler
+    public abstract class ExceptionHandlerBase<TException>: IExceptionHandler
         where TException : Exception
     {
         public bool CanHandle(Exception exception)

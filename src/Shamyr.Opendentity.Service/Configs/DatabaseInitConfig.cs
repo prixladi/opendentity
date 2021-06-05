@@ -2,8 +2,8 @@
 
 namespace Shamyr.Opendentity.Service.Configs
 {
-    public class DatabaseInitConfig: IDatabaseInitConfig
+    public record DatabaseInitConfig: IDatabaseInitConfig
     {
-        public string? InitFilePath => EnvVariable.TryGet(EnvVariables._InitFilePath);
+        public string? InitFilePath { get; } = EnvVariable.TryGet(EnvVariables._InitFilePath);
     }
 }

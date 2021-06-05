@@ -18,7 +18,7 @@ namespace Shamyr.AspNetCore.HttpErrors
             if (handler == null)
             {
                 logger.LogError(context.Exception, "Unhandled exception occurred!");
-                context.Result = context.Exception.ToHttpResponseModel(StatusCodes.Status200OK);
+                context.Result = context.Exception.ToHttpResponseModel(StatusCodes.Status500InternalServerError);
             }
             else
                 context.Result = handler.Handle(context.Exception);

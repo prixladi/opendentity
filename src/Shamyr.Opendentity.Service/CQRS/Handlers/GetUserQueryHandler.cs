@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Service.CQRS.Queries;
+using Shamyr.Opendentity.Service.Extensions;
 using Shamyr.Opendentity.Service.Models;
 
 namespace Shamyr.Opendentity.Service.CQRS.Handlers
@@ -24,15 +25,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
             if (user == null)
                 throw new NotFoundException($"User with ID '{request.Id}' not found.");
 
-            return new UserModel
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                ImageUrl = user.ImageUrl
-            };
+            return user.ToModel();
         }
     }
 }

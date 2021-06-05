@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId.Services;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 
 namespace Shamyr.Opendentity.Service.CQRS.Handlers
@@ -13,11 +14,16 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ISubjectTokenRevokationService subjectTokenRevokationService;
 
-        public SetCurrentUserPasswordCommandHandler(IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager)
+        public SetCurrentUserPasswordCommandHandler(
+            IHttpContextAccessor httpContextAccessor,
+            UserManager<ApplicationUser> userManager,
+            ISubjectTokenRevokationService subjectTokenRevokationService)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.userManager = userManager;
+            this.subjectTokenRevokationService = subjectTokenRevokationService;
         }
 
         public async Task<Unit> Handle(SetCurrentUserPasswordCommand request, CancellationToken cancellationToken)
@@ -30,6 +36,8 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
             var result = await userManager.AddPasswordAsync(user, request.Model.Password);
             if (!result.Succeeded)
                 throw new BadRequestException(result.ToString());
+
+            await subjectTokenRevokationService.RevokeAllAsync(user.Id, cancellationToken);
 
             return Unit.Value;
         }

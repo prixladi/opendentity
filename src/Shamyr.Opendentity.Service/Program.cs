@@ -1,10 +1,13 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Shamyr.Opendentity.Service;
 
-await new WebHostBuilder()
-  .UseKestrel()
-  .UseStartup<Startup>()
-  .Build()
-  .RunAsync();
+await Host.CreateDefaultBuilder()
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.UseStartup<Startup>();
+        webBuilder.UseKestrel();
+    })
+    .Build()
+    .RunAsync();
 

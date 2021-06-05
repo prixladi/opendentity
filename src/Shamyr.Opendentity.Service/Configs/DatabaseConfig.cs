@@ -2,8 +2,8 @@
 
 namespace Shamyr.Opendentity.Service.Configs
 {
-    public class DatabaseConfig: IDatabaseConfig
+    public record DatabaseConfig: IDatabaseConfig
     {
-        public string ConnectionString => EnvVariable.Get(EnvVariables._DatabaseConnectionString);
+        public string ConnectionString { get; } = EnvVariable.Get(EnvVariables._DatabaseConnectionString);
     }
 }

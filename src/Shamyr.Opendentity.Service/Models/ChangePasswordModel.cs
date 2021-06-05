@@ -9,5 +9,5 @@ namespace Shamyr.Opendentity.Service.Models
 
         [Required]
         public string NewPassword { get; init; } = default!;
-    } 
+    }
 }

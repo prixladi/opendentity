@@ -1,10 +1,12 @@
 ﻿using System;
-using Shamyr.Opendentity.Service.OpenId;
+using Shamyr.Opendentity.OpenId;
 
 namespace Shamyr.Opendentity.Service.Configs
 {
-    public static class OpenIdConfig
+    public record OpenIdConfig: IOpenIdConfig
     {
+        public bool RequireConfirmedAccount { get; } = EnvVariable.TryGetBool(EnvVariables._RequireVerifiedAccount, false);
+
         public static void Setup(OpenIdBuilder builder)
         {
             builder.AccessTokenDuration = EnvVariable.TryGetTimeSpan(EnvVariables._AccessTokenDuration, TimeSpan.FromMinutes(15));

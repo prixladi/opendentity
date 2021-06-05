@@ -4,23 +4,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Shamyr.Extensions.Factories
 {
-  public abstract class FactoryBase<T> where T : notnull
-  {
-    private readonly IServiceProvider serviceProvider;
-
-    protected FactoryBase(IServiceProvider serviceProvider)
+    public abstract class FactoryBase<T> where T : notnull
     {
-      this.serviceProvider = serviceProvider;
-    }
+        private readonly IServiceProvider serviceProvider;
 
-    protected IEnumerable<T> GetComponents()
-    {
-      return serviceProvider.GetServices<T>();
-    }
+        protected FactoryBase(IServiceProvider serviceProvider)
+        {
+            this.serviceProvider = serviceProvider;
+        }
 
-    protected T GetComponent()
-    {
-      return serviceProvider.GetRequiredService<T>();
+        protected IEnumerable<T> GetComponents()
+        {
+            return serviceProvider.GetServices<T>();
+        }
+
+        protected T GetComponent()
+        {
+            return serviceProvider.GetRequiredService<T>();
+        }
     }
-  }
 }

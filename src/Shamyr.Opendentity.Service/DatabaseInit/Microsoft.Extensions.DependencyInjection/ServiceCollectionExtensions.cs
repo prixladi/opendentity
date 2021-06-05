@@ -1,5 +1,5 @@
 ﻿using Shamyr.Opendentity.Service.DatabaseInit;
-using Shamyr.Opendentity.Service.HostedServices;
+using Shamyr.Opendentity.Service.DatabaseInit.HostedServices;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

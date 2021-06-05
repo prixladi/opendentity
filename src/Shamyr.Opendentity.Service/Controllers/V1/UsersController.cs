@@ -32,15 +32,13 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <returns></returns>
         /// <response code="201">User created</response>
         /// <response code="409">User with provided email or username already exists</response>
-        /// <response code="429">Too many requests</response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CreatedModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         public async Task<CreatedAtRouteResult> CreateAsync(CreateUserModel model, CancellationToken cancellationToken)
         {
             var result = await sender.Send(new CreateUserCommand(model), cancellationToken);
-            return CreatedAtRoute(_GetUserAction, new { result.Id }, result);
+            return CreatedAtRoute(_GetUserAction, new { id = result.Id }, null);
         }
 
         /// <summary>
@@ -54,10 +52,9 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <response code="403">User needs to be admin to perform this action</response>
         /// <response code="404">User with provided id not found</response>
         [HttpGet("{id}", Name = _GetUserAction)]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Authorize(Roles = Constants.Auth._AdminRole)]
+        [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status404NotFound)]
         public async Task<UserModel> GetByIdAsync(string id, CancellationToken cancellationToken)
         {
@@ -75,11 +72,10 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <response code="401">User is unauthorized</response>
         /// <response code="403">User needs to be admin to perform this action</response>
         /// <response code="404">User with provided id not found</response>
-        [HttpPut("{id}/disabled", Name = _GetUserAction)]
-        [Authorize]
+        [HttpPut("{id}/disabled")]
+        [Authorize(Roles = Constants.Auth._AdminRole)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status404NotFound)]
         public async Task<NoContentResult> UpdateDisabledAsync(string id, UpdateDisabledModel model, CancellationToken cancellationToken)
         {

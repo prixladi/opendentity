@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Shamyr.Opendentity.OpenId.Factories;
 using Shamyr.Opendentity.Service.CQRS.Commands;
-using Shamyr.Opendentity.Service.OpenId.Factories;
 
 namespace Shamyr.Opendentity.Service.CQRS.Handlers
 {

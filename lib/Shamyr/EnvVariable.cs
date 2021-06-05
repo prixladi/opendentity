@@ -112,5 +112,29 @@ namespace Shamyr
 
             return TimeSpan.Parse(value);
         }
+
+        public static bool? TryGetBool(string variableName)
+        {
+            if (variableName is null)
+                throw new ArgumentNullException(nameof(variableName));
+
+            var value = Environment.GetEnvironmentVariable(variableName);
+            if (value is null)
+                return null;
+
+            return bool.Parse(value);
+        }
+
+        public static bool TryGetBool(string variableName, bool defaultValue)
+        {
+            if (variableName is null)
+                throw new ArgumentNullException(nameof(variableName));
+
+            var value = Environment.GetEnvironmentVariable(variableName);
+            if (value is null)
+                return defaultValue;
+
+            return bool.Parse(value);
+        }
     }
 }

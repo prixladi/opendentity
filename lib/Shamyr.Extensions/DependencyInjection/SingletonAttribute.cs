@@ -2,9 +2,9 @@
 
 namespace Shamyr.Extensions.DependencyInjection
 {
-  public sealed class SingletonAttribute: LifetimeAttribute
-  {
-    public SingletonAttribute()
-      : base(ServiceLifetime.Singleton) { }
-  }
+    public sealed class SingletonAttribute: LifetimeAttribute
+    {
+        public SingletonAttribute()
+          : base(ServiceLifetime.Singleton) { }
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace Shamyr.Extensions.DependencyInjection
 {
-  public sealed class ScopedAttribute: LifetimeAttribute
-  {
-    public ScopedAttribute()
-      : base(ServiceLifetime.Scoped) { }
-  }
+    public sealed class ScopedAttribute: LifetimeAttribute
+    {
+        public ScopedAttribute()
+          : base(ServiceLifetime.Scoped) { }
+    }
 }

@@ -6,15 +6,15 @@ namespace Shamyr.Extensions.DependencyInjection
     {
         public static IImplementationTypeSelector AddConventionClasses(this IImplementationTypeSelector selector)
         {
-            return selector.AddClasses(x => x.WithAttribute<SingletonAttribute>())
+            return selector.AddClasses(x => x.WithAttribute<SingletonAttribute>().WithoutAttribute<ScanIgnoreAttribute>())
                 .AsMatchingInterface()
                 .WithSingletonLifetime()
 
-                .AddClasses(x => x.WithAttribute<ScopedAttribute>())
+                .AddClasses(x => x.WithAttribute<ScopedAttribute>().WithoutAttribute<ScanIgnoreAttribute>())
                 .AsMatchingInterface()
                 .WithScopedLifetime()
 
-                .AddClasses(x => x.WithoutAttribute<SingletonAttribute>().WithoutAttribute<ScopedAttribute>())
+                .AddClasses(x => x.WithoutAttribute<SingletonAttribute>().WithoutAttribute<ScopedAttribute>().WithoutAttribute<ScanIgnoreAttribute>())
                 .AsMatchingInterface()
                 .WithTransientLifetime();
         }

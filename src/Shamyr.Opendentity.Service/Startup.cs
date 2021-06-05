@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Shamyr.AspNetCore.Configs;
 using Shamyr.Opendentity.Service.Configs;
@@ -10,6 +9,9 @@ namespace Shamyr.Opendentity.Service
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatorPipeline();
+            services.AddServiceAssembly();
+
             services.AddCors(CorsConfig.SetupAllowAny);
             services.AddControllers(MvcConfig.Setup)
                 .AddJsonOptions(MvcConfig.SetupJson);
@@ -17,15 +19,13 @@ namespace Shamyr.Opendentity.Service
             services.AddDatabase<DatabaseConfig>()
                 .AddDatabaseInit<DatabaseInitConfig>();
 
-            services.AddOpenId(OpenIdConfig.Setup)
+            services.AddOpenId<OpenIdConfig>(OpenIdConfig.Setup)
                 .AddIdentity();
 
+            services.AddEmailClient<EmailClientConfig>();
+
             services.AddLogging(LoggingConfig.Setup);
-
-            services.AddMediatorPipeline();
-
             services.AddExceptionHandling(typeof(Startup).Assembly);
-
             services.AddSwaggerGen(SwaggerConfig.SetupSwaggerGen);
         }
 
