@@ -1,68 +1,60 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using Shamyr.Extensions.DependencyInjection;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 using Shamyr.Opendentity.Database.Entities;
 
 namespace Shamyr.Opendentity.Service.Services
 {
-    [Singleton]
     public class EmailTemplateCache: IEmailTemplateCache
     {
-        private record EmailTemplateDto
+        private readonly IDistributedCache distributedCache;
+
+        private static DistributedCacheEntryOptions Options => new()
         {
-            public string Id { get; set; }
-            public string Subject { get; set; } = default!;
-            public string ContentTemplate { get; set; } = default!;
-            public bool IsHtml { get; set; }
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+            SlidingExpiration = TimeSpan.FromMinutes(1)
+        };
 
-            public EmailTemplateDto(EmailTemplate template)
-            {
-                Id = template.Id;
-                Subject = template.Subject;
-                ContentTemplate = template.ContentTemplate;
-                IsHtml = template.IsHtml;
-            }
-
-            public EmailTemplate ToTemplate(EmailTemplateType type)
-            {
-                return new EmailTemplate
-                {
-                    Id = Id,
-                    Type = type,
-                    Subject = Subject,
-                    ContentTemplate = ContentTemplate,
-                    IsHtml = IsHtml
-                };
-            }
+        public EmailTemplateCache(IDistributedCache distributedCache)
+        {
+            this.distributedCache = distributedCache;
         }
 
-        private readonly ConcurrentDictionary<EmailTemplateType, EmailTemplateDto> templates;
-
-        public EmailTemplateCache()
+        public async Task<EmailTemplate?> TryGetAsync(EmailTemplateType type, CancellationToken cancellationToken)
         {
-            templates = new ConcurrentDictionary<EmailTemplateType, EmailTemplateDto>();
+            var key = CreateKey(type);
+            var result = await distributedCache.GetStringAsync(key, cancellationToken);
+            if (result is null)
+                return null;
+
+            return JsonSerializer.Deserialize<EmailTemplate>(result)!;
         }
 
-        public bool TryGet(EmailTemplateType type, out EmailTemplate? value)
+        public async Task AddOrUpdateAsync(EmailTemplateType type, EmailTemplate template, CancellationToken cancellationToken)
         {
-            if (templates.TryGetValue(type, out var dto))
-            {
-                value = dto.ToTemplate(type);
-                return true;
-            }
+            var key = CreateKey(type);
+            var data = JsonSerializer.Serialize(template);
 
-            value = null;
-            return false;
+            await distributedCache.SetStringAsync(key, data, Options, cancellationToken);
         }
 
-        public void AddOrUpdate(EmailTemplateType type,EmailTemplate template)
+        public async Task RemoveAsync(EmailTemplateType type, CancellationToken cancellationToken)
         {
-            templates.AddOrUpdate(type, new EmailTemplateDto(template), (_, __) => new EmailTemplateDto(template));
+            var key = CreateKey(type);
+            await distributedCache.RemoveAsync(key, cancellationToken);
         }
 
-        public bool TryRemove(EmailTemplateType type)
+        public async Task ClearAsync(CancellationToken cancellationToken)
         {
-            return templates.TryRemove(type, out _);
+            await distributedCache.RemoveAsync(CreateKey(EmailTemplateType.ConfirmationEmail), cancellationToken);
+            await distributedCache.RemoveAsync(CreateKey(EmailTemplateType.PasswordResetEmail), cancellationToken);
+        }
+
+        private string CreateKey(EmailTemplateType type)
+        {
+            return $"template-by-type-{type}";
         }
     }
 }

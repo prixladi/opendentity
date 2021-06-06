@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +33,7 @@ namespace Shamyr.Opendentity.Service.Services
                     return null;
 
                 if (dbTemplate.Type is not null)
-                    cache.AddOrUpdate(dbTemplate.Type.Value, dbTemplate);
+                    await cache.AddOrUpdateAsync(dbTemplate.Type.Value, dbTemplate, cancellationToken);
 
                 return dbTemplate;
             }
@@ -44,14 +43,15 @@ namespace Shamyr.Opendentity.Service.Services
         {
             using (await asyncLock.LockAsync(cancellationToken))
             {
-                if (cache.TryGet(type, out var value))
+                var value = await cache.TryGetAsync(type, cancellationToken);
+                if (value is not null)
                     return value;
 
                 var dbTemplate = await databaseContext.EmailTemplates.SingleOrDefaultAsync(e => e.Type == type, cancellationToken);
                 if (dbTemplate == null)
                     return null;
 
-                cache.AddOrUpdate(dbTemplate.Type!.Value, dbTemplate);
+                await cache.AddOrUpdateAsync(dbTemplate.Type!.Value, dbTemplate, cancellationToken);
 
                 return dbTemplate;
             }
@@ -68,7 +68,7 @@ namespace Shamyr.Opendentity.Service.Services
                 await databaseContext.SaveChangesAsync(cancellationToken);
 
                 if (template.Type is not null)
-                    cache.AddOrUpdate(template.Type.Value, template);
+                    await cache.AddOrUpdateAsync(template.Type.Value, template, cancellationToken);
             }
         }
 
@@ -80,13 +80,13 @@ namespace Shamyr.Opendentity.Service.Services
             using (await asyncLock.LockAsync(cancellationToken))
             {
                 if (oldType is not null)
-                    cache.TryRemove(oldType.Value);
+                    await cache.RemoveAsync(oldType.Value, cancellationToken);
 
                 databaseContext.EmailTemplates.Update(template);
                 await databaseContext.SaveChangesAsync(cancellationToken);
 
                 if (template.Type is not null)
-                    cache.AddOrUpdate(template.Type.Value, template);
+                    await cache.AddOrUpdateAsync(template.Type.Value, template, cancellationToken);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Shamyr.Opendentity.Service.Services
                     return false;
 
                 if (template.Type is not null)
-                    cache.TryRemove(template.Type.Value);
+                    await cache.RemoveAsync(template.Type.Value, cancellationToken);
 
                 databaseContext.EmailTemplates.Remove(template);
                 await databaseContext.SaveChangesAsync(cancellationToken);

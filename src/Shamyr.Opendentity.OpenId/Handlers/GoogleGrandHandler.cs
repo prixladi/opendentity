@@ -1,12 +1,17 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
+using OpenIddict.Server.AspNetCore;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId.Exceptions;
 using Shamyr.Opendentity.OpenId.Extensions;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Shamyr.Opendentity.OpenId.Handlers
 {
@@ -31,7 +36,7 @@ namespace Shamyr.Opendentity.OpenId.Handlers
         public async Task<ClaimsPrincipal> HandleAsync(OpenIddictRequest request, CancellationToken cancellationToken)
         {
             if (!request.TryGetParameter(_IdTokenParameter, out var parameter))
-                throw new BadRequestException("Id token is required for google grant.");
+                throw Forbidden("Id token is required for google grant.");
 
             GoogleJsonWebSignature.Payload payload;
             try
@@ -40,20 +45,24 @@ namespace Shamyr.Opendentity.OpenId.Handlers
             }
             catch (InvalidJwtException)
             {
-                throw new BadRequestException("Google token is invalid.");
+                throw Forbidden("Google id token is invalid or expired.");
             }
 
             var user = await userManager.FindByEmailAsync(payload.Email);
             if (user is null)
             {
                 user = payload.ToUser();
-                await userManager.CreateAsync(user);
+                var result = await userManager.CreateAsync(user);
+                if (!result.Succeeded)
+                    throw new IdentityException(result);
             }
             else if (!user.EmailConfirmed)
             {
                 // By logging with google we automaticaly validate user's email, hence confirmed
                 user.EmailConfirmed = true;
-                await userManager.UpdateAsync(user);
+                var result = await userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                    throw new IdentityException(result);
             }
 
             var principal = await signInManager.CreateUserPrincipalAsync(user);
@@ -63,6 +72,17 @@ namespace Shamyr.Opendentity.OpenId.Handlers
                 claim.SetDestinations(Utils.GetClaimDestinations(claim, principal));
 
             return principal;
+        }
+
+        private static ForbiddenException Forbidden(string description)
+        {
+            var properties = new AuthenticationProperties(new Dictionary<string, string?>
+            {
+                [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
+                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = description
+            });
+
+            return new ForbiddenException(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
         }
     }
 }

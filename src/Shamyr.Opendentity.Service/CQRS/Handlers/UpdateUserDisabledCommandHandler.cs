@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.OpenId.Services;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 
@@ -35,7 +36,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
 
             var result = await userManager.UpdateAsync(user);
             if (!result.Succeeded)
-                throw new BadRequestException(result.ToString());
+                throw new IdentityException(result);
 
             return Unit.Value;
         }

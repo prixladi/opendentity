@@ -1,12 +1,14 @@
-﻿using System;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Shamyr.Opendentity.Database.Entities;
 
 namespace Shamyr.Opendentity.Service.Services
 {
     public interface IEmailTemplateCache
     {
-        void AddOrUpdate(EmailTemplateType type, EmailTemplate template);
-        bool TryGet(EmailTemplateType type, out EmailTemplate? value);
-        bool TryRemove(EmailTemplateType type);
+        Task AddOrUpdateAsync(EmailTemplateType type, EmailTemplate template, CancellationToken cancellationToken);
+        Task RemoveAsync(EmailTemplateType type, CancellationToken cancellationToken);
+        Task<EmailTemplate?> TryGetAsync(EmailTemplateType type, CancellationToken cancellationToken);
+        Task ClearAsync(CancellationToken cancellationToken);
     }
 }

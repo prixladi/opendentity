@@ -8,6 +8,7 @@ using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Emails;
 using Shamyr.Opendentity.OpenId;
+using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.OpenId.Services;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.Extensions;
@@ -45,7 +46,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
 
             var result = await userManager.CreateAsync(user, request.Model.Password);
             if (!result.Succeeded)
-                throw new BadRequestException(result.ToString());
+                throw new IdentityException(result);
 
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
             await SendConfirmationEmailAsync(user.Email, token, cancellationToken);

@@ -28,9 +28,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
 
             var oldType = emailTemplate.Type;
 
-            if (oldType is not null
-                && request.Model.Type is not null
-                && await databaseContext.EmailTemplates.AnyAsync(e => e.Type == request.Model.Type, cancellationToken))
+            if (request.Model.Type is not null && await databaseContext.EmailTemplates.AnyAsync(e => e.Type == request.Model.Type, cancellationToken))
             {
                 throw new ConflictException($"Email template with ID '{request.Model.Type}' already exist.");
             }

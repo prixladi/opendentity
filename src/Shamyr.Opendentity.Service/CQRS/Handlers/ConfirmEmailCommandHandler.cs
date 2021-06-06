@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.CQRS.Handlers.Base;
 
@@ -19,7 +20,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
             var user = await GetByEmailOrThrowAsync(request.Email);
             var result = await userManager.ConfirmEmailAsync(user, request.Model.Token);
             if (!result.Succeeded)
-                throw new BadRequestException(result.ToString());
+                throw new IdentityException(result);
 
             return Unit.Value;
         }

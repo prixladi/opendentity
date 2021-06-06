@@ -24,6 +24,8 @@ namespace Shamyr.Opendentity.Service
 
             services.AddEmailClient<EmailClientConfig>();
 
+            services.AddStackExchangeRedisCache(DistributedCacheConfig.SetupRedis);
+
             services.AddLogging(LoggingConfig.Setup);
             services.AddExceptionHandling(typeof(Startup).Assembly);
             services.AddSwaggerGen(SwaggerConfig.SetupSwaggerGen);

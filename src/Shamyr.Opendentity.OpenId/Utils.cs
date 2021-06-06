@@ -7,7 +7,7 @@ namespace Shamyr.Opendentity.OpenId
 {
     internal static class Utils
     {
-        public const string _AllowedUsernameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public const string _AllowedUsernameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@-";
 
         public static IEnumerable<string> GetClaimDestinations(Claim claim, ClaimsPrincipal principal)
         {

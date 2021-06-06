@@ -12,6 +12,8 @@ namespace Shamyr.Opendentity.Service.Models
 
         public string? FirstName { get; init; }
         public string? LastName { get; init; } = default!;
+
+        [Url]
         public string? ImageUrl { get; init; } = default!;
     }
 }

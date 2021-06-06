@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using OpenIddict.Core;
 using Shamyr.Opendentity.Database;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.DatabaseInit;
 using Shamyr.Opendentity.Service.Services;
@@ -64,13 +65,13 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
                 var appUser = user.ToApplicationUser();
                 var result = await userManager.CreateAsync(appUser, user.Password);
                 if (!result.Succeeded)
-                    throw new InvalidOperationException(result.ToString());
+                    throw new IdentityException(result);
 
                 if (user.IsAdmin)
                 {
                     var roleResult = await userManager.AddToRoleAsync(appUser, Constants.Auth._AdminRole);
                     if (!roleResult.Succeeded)
-                        throw new InvalidOperationException(roleResult.ToString());
+                        throw new IdentityException(roleResult);
                 }
             }
 

@@ -1,6 +1,25 @@
 version: '3.4'
 
 services:
+  service:
+    image: opendentity/service 
+    ports:
+      - 8080:80
+    environment:
+        INIT_FILE_PATH: InitData.json
+        DATABASE_CONNECTION_STRING: Host=postgres;Database=identity_oi;Username=admin;Password=password
+        REDIS_CONNECTION_STRING: redis,password=secret
+        ACCESS_TOKEN_DURATION: 00:10:00
+        ASPNETCORE_ENVIRONMENT: Development
+        REFRESH_TOKEN_DURATION: 14.00:00:00
+        EMAIL_SERVER_URL: http://server.ladislavprix.cz/sendMail.php
+        EMAIL_SENDER_ADDRESS: openiddict@ladislavprix.cz
+        REQUIRE_VERIFIED_ACCOUNT: "true"
+        PORTAL_URL: http://localhost
+    build:
+      context: .
+      dockerfile: src/Shamyr.Opendentity.Service/Dockerfile
+
   postgres:
     image: postgres:13.2-alpine
     ports:
@@ -11,7 +30,15 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data
     volumes:
-    - postgresdata:/var/lib/postgresql/data
+      - postgresdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes --requirepass secret
 
   pgadmin:
     image: dpage/pgadmin4:5.1
@@ -22,8 +49,16 @@ services:
       PGADMIN_DEFAULT_PASSWORD: password
       PGADMIN_LISTEN_PORT: 80
     volumes:
-    - pgadmindata:/var/lib/pgadmin
+      - pgadmindata:/var/lib/pgadmin
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    ports:
+      - 8081:8081
+    environment:
+      - REDIS_HOSTS=local:redis:6379:0:secret
 
 volumes:
   postgresdata:
   pgadmindata:
+  redisdata:

@@ -11,7 +11,8 @@ namespace Shamyr.Opendentity.OpenId.Extensions
             if (payload is null)
                 throw new ArgumentNullException(nameof(payload));
 
-            return new ApplicationUser($"{payload.Email}-{Guid.NewGuid():N}")
+            // TODO: Add email after user validator allowes non-alphanumeric characters
+            return new ApplicationUser(Guid.NewGuid().ToString("N"))
             {
                 FirstName = payload.GivenName,
                 LastName = payload.FamilyName,

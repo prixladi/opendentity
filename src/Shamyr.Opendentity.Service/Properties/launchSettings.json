@@ -5,7 +5,8 @@
       "commandName": "Project",
       "environmentVariables": {
         "INIT_FILE_PATH": "InitData.json",
-        "DATABASE_CONNECTION_STRING": "Host=localhost;Database=identity_opendentity;Username=admin;Password=password",
+        "DATABASE_CONNECTION_STRING": "Host=localhost;Database=identity_oi;Username=admin;Password=password",
+        "REDIS_CONNECTION_STRING": "localhost,password=secret",
         "ACCESS_TOKEN_DURATION": "00:10:00",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "REFRESH_TOKEN_DURATION": "14.00:00:00",

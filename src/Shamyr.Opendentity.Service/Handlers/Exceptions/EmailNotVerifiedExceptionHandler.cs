@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Shamyr.AspNetCore.Handlers.Exceptions;
 using Shamyr.AspNetCore.HttpErrors;
 using Shamyr.Opendentity.OpenId.Exceptions;
@@ -11,13 +12,12 @@ namespace Shamyr.Opendentity.Service.Handlers.Exceptions
         {
             var model = new HttpErrorResponseModel
             {
-                Message = ex.Message,
-                Features = new (string, object)[]
+                Message = "Email is not verified",
+                Features = new KeyValuePair<string, object>[]
                 {
-                    ("email", ex.Email)
+                    KeyValuePair.Create<string, object>("email", ex.Email)
                 }
             };
-
 
             return new ObjectResult(model) { StatusCode = Constants.CustomStatusCodes._EmailNotVerified };
         }

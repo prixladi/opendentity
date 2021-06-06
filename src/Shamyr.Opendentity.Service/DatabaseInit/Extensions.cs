@@ -2,6 +2,7 @@
 using System.Linq;
 using OpenIddict.Abstractions;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Shamyr.Opendentity.Service.DatabaseInit
@@ -37,6 +38,7 @@ namespace Shamyr.Opendentity.Service.DatabaseInit
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.RefreshToken,
                     Permissions.GrantTypes.Password,
+                    CustomGrants._GooglePermission,
                     Permissions.Scopes.Address,
                     Permissions.Scopes.Email,
                     Permissions.Scopes.Phone,

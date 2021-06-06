@@ -11,6 +11,7 @@ Json file with init data - [InitData.json](src/Shamyr.Opendentity.Service/InitDa
 |Name | Description|
 |:--- | :---:|
 |DATABASE_CONNECTION_STRING | Connection string to PostgreSQL database|
+|REDIS_CONNECTION_STRING | Comma-delimited connection string to Redis|
 |INIT_FILE_PATH | Path to init file|
 |ACCESS_TOKEN_DURATION | Duration of access token in Timespan format (eg. 00:10:00)|
 |REFRESH_TOKEN_DURATION| Duration of refresh token in Timespan format (eg. 14:00:00)|

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
+using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.OpenId.Services;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 
@@ -34,7 +35,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
 
             var result = await userManager.ChangePasswordAsync(user, request.Model.OldPassword, request.Model.NewPassword);
             if (!result.Succeeded)
-                throw new BadRequestException(result.ToString());
+                throw new IdentityException(result);
 
             await subjectTokenRevokationService.RevokeAllAsync(user.Id, cancellationToken);
 

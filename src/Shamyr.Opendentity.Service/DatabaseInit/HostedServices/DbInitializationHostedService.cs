@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Npgsql;
+using Polly;
 using Shamyr.Opendentity.Database;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 
@@ -36,7 +40,18 @@ namespace Shamyr.Opendentity.Service.DatabaseInit.HostedServices
         private async Task MigrateAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
             var context = serviceProvider.GetRequiredService<DatabaseContext>();
-            await context.Database.MigrateAsync(cancellationToken);
+            var logger = serviceProvider.GetRequiredService<ILogger<DbInitializationHostedService>>();
+
+            var pol = Policy
+                .Handle<SocketException>()
+                .OrInner<SocketException>()
+                .Or<PostgresException>(ex => ex.SqlState == PostgresErrorCodes.CannotConnectNow)
+                .WaitAndRetryAsync(
+                    int.MaxValue,
+                    retryAttemp => TimeSpan.FromSeconds(Math.Min(Math.Pow(2, retryAttemp), 60)),
+                    (ex, time, context) => logger.LogError(ex, $"Exception while migrating db, elapsed:{time.TotalSeconds:n1}s"));
+
+            await pol.ExecuteAsync(async () => await context.Database.MigrateAsync(cancellationToken));
         }
 
         private async Task InitializeAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
