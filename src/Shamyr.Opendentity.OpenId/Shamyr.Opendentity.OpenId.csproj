@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Shamyr.Extensions\Shamyr.Extensions.csproj" />
+    <ProjectReference Include="..\..\lib\shamyr-core\src\Shamyr.Extensions\Shamyr.Extensions.csproj" />
     <ProjectReference Include="..\Shamyr.Opendentity.Database\Shamyr.Opendentity.Database.csproj" />
   </ItemGroup>
 

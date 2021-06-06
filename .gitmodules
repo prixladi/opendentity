@@ -1,0 +1,3 @@
+[submodule "lib/shamyr-core"]
+	path = lib/shamyr-core
+	url = git@github.com:prixladi/shamyr-core.git

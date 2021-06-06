@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Shamyr.AspNetCore\Shamyr.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\lib\shamyr-core\src\Shamyr.AspNetCore\Shamyr.AspNetCore.csproj" />
     <ProjectReference Include="..\Shamyr.Opendentity.Emails\Shamyr.Opendentity.Emails.csproj" />
     <ProjectReference Include="..\Shamyr.Opendentity.OpenId\Shamyr.Opendentity.OpenId.csproj" />
   </ItemGroup>

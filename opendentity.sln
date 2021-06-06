@@ -7,25 +7,28 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.Service"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0360DFD7-E77A-44B4-A503-EC547E31C9AB}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		.gitmodules = .gitmodules
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6C1C4244-3552-4E17-9411-63F12595FA9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{7B3DBC8D-530D-4324-9732-506B649A50B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr", "lib\Shamyr\Shamyr.csproj", "{CCE8B4D6-04BB-4B89-AFA8-906D8D2A27C7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.AspNetCore", "lib\Shamyr.AspNetCore\Shamyr.AspNetCore.csproj", "{C3F377C2-D85D-42AF-865F-F0DE00E731A3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Extensions", "lib\Shamyr.Extensions\Shamyr.Extensions.csproj", "{147A2271-6503-40B2-A630-24D86FB26572}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.Database", "src\Shamyr.Opendentity.Database\Shamyr.Opendentity.Database.csproj", "{B1145C61-AEC0-4571-8550-9897D3B6F168}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shamyr.Opendentity.Emails", "src\Shamyr.Opendentity.Emails\Shamyr.Opendentity.Emails.csproj", "{7BB9EB79-DBC8-45D3-921A-E79AAD04E726}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.Emails", "src\Shamyr.Opendentity.Emails\Shamyr.Opendentity.Emails.csproj", "{7BB9EB79-DBC8-45D3-921A-E79AAD04E726}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shamyr.Opendentity.OpenId", "src\Shamyr.Opendentity.OpenId\Shamyr.Opendentity.OpenId.csproj", "{93AB3112-28EC-4A82-B41D-D90FBCD50C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.OpenId", "src\Shamyr.Opendentity.OpenId\Shamyr.Opendentity.OpenId.csproj", "{93AB3112-28EC-4A82-B41D-D90FBCD50C82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr", "lib\shamyr-core\src\Shamyr\Shamyr.csproj", "{50A14F23-6631-401D-A16E-AD52FA2C4BF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.AspNetCore", "lib\shamyr-core\src\Shamyr.AspNetCore\Shamyr.AspNetCore.csproj", "{1E188C95-BC89-451B-ADEC-4561A3C41EC2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Extensions", "lib\shamyr-core\src\Shamyr.Extensions\Shamyr.Extensions.csproj", "{8B141436-261E-4C2C-82BA-2CA4640650A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,18 +44,6 @@ Global
 		{6C1C4244-3552-4E17-9411-63F12595FA9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C1C4244-3552-4E17-9411-63F12595FA9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C1C4244-3552-4E17-9411-63F12595FA9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCE8B4D6-04BB-4B89-AFA8-906D8D2A27C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCE8B4D6-04BB-4B89-AFA8-906D8D2A27C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCE8B4D6-04BB-4B89-AFA8-906D8D2A27C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCE8B4D6-04BB-4B89-AFA8-906D8D2A27C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3F377C2-D85D-42AF-865F-F0DE00E731A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3F377C2-D85D-42AF-865F-F0DE00E731A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3F377C2-D85D-42AF-865F-F0DE00E731A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3F377C2-D85D-42AF-865F-F0DE00E731A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{147A2271-6503-40B2-A630-24D86FB26572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{147A2271-6503-40B2-A630-24D86FB26572}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{147A2271-6503-40B2-A630-24D86FB26572}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{147A2271-6503-40B2-A630-24D86FB26572}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B1145C61-AEC0-4571-8550-9897D3B6F168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B1145C61-AEC0-4571-8550-9897D3B6F168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1145C61-AEC0-4571-8550-9897D3B6F168}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,14 +56,26 @@ Global
 		{93AB3112-28EC-4A82-B41D-D90FBCD50C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93AB3112-28EC-4A82-B41D-D90FBCD50C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93AB3112-28EC-4A82-B41D-D90FBCD50C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A14F23-6631-401D-A16E-AD52FA2C4BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A14F23-6631-401D-A16E-AD52FA2C4BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A14F23-6631-401D-A16E-AD52FA2C4BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A14F23-6631-401D-A16E-AD52FA2C4BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E188C95-BC89-451B-ADEC-4561A3C41EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E188C95-BC89-451B-ADEC-4561A3C41EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E188C95-BC89-451B-ADEC-4561A3C41EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E188C95-BC89-451B-ADEC-4561A3C41EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CCE8B4D6-04BB-4B89-AFA8-906D8D2A27C7} = {7B3DBC8D-530D-4324-9732-506B649A50B2}
-		{C3F377C2-D85D-42AF-865F-F0DE00E731A3} = {7B3DBC8D-530D-4324-9732-506B649A50B2}
-		{147A2271-6503-40B2-A630-24D86FB26572} = {7B3DBC8D-530D-4324-9732-506B649A50B2}
+		{50A14F23-6631-401D-A16E-AD52FA2C4BF1} = {7B3DBC8D-530D-4324-9732-506B649A50B2}
+		{1E188C95-BC89-451B-ADEC-4561A3C41EC2} = {7B3DBC8D-530D-4324-9732-506B649A50B2}
+		{8B141436-261E-4C2C-82BA-2CA4640650A2} = {7B3DBC8D-530D-4324-9732-506B649A50B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19EE7E91-E10C-498E-9476-F0B64E34ECB0}
