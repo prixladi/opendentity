@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    name: Build and push image
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Image
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: opendentity
+        tags: latest
+        dockerfiles: |
+          ./src/Shamyr.Opendentity.Service/Dockerfile
+
+    - name: Push To github registry
+      id: push-to-github-registry
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: docker.pkg.github.com/prixladi/opendentity/
+        username: prixladi
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Print image url
+      run: echo "Image pushed to ${{ steps.push-to-github-registry.outputs.registry-paths }}"
