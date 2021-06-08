@@ -12,11 +12,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: recursive
     - name: Build Image
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: opendentity
+        image: service
         tags: latest
         dockerfiles: |
           ./src/Shamyr.Opendentity.Service/Dockerfile
