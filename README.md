@@ -2,6 +2,10 @@
 
 Identity provider apliacation, providing *password*, *resfresh_token* and *google* oauth flows. Also provides basic user management, such as *user registration*, *password reset*, *user disabling* and so on. 
 
+## Status
+
+[![CI](https://github.com/prixladi/opendentity/actions/workflows/main.yml/badge.svg)](https://github.com/prixladi/opendentity/actions/workflows/main.yml)
+
 ## Application settings
 
 Settings using environment variables - [EnvVariables.cs](src/Shamyr.Opendentity.Service/EnvVariables.cs)
