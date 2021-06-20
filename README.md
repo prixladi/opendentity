@@ -8,18 +8,16 @@ Identity provider apliacation, providing *password*, *resfresh_token* and *googl
 
 ## Application settings
 
-Settings using environment variables - [EnvVariables.cs](src/Shamyr.Opendentity.Service/EnvVariables.cs)
-
 Json file with init data - [InitData.json](src/Shamyr.Opendentity.Service/InitData.json), this file is compiled inside docker image and can be maped using docker volumes.
 
-|Name | Description|
-|:--- | :---:|
-|DATABASE_CONNECTION_STRING | Connection string to PostgreSQL database|
-|REDIS_CONNECTION_STRING | Comma-delimited connection string to Redis|
-|INIT_FILE_PATH | Path to init file|
-|ACCESS_TOKEN_DURATION | Duration of access token in Timespan format (eg. 00:10:00)|
-|REFRESH_TOKEN_DURATION| Duration of refresh token in Timespan format (eg. 14:00:00)|
-|REQUIRE_VERIFIED_ACCOUNT| Flag if account needs to be verified in order to log in|
-|EMAIL_SERVER_URL | Url of email server|
-|EMAIL_SENDER_ADDRESS| Address of email sender|
-|PORTAL_URL| Base url of application using this identity provider. Used in Emails.|
+|Class | Desription|
+|:--- |  :---:|
+|[Database](src/Shamyr.Opendentity.Database/DatabaseSettings.cs) | Settings to database connection|
+|[DatabaseInit](src/Shamyr.Opendentity.Service/DatabaseInit/DatabaseInitSettings.cs) | Settings for database init eg. path to json data |
+|[Redis](src/Shamyr.Opendentity.Service/Settings/RedisSettings.cs) | Settings for redis|
+|[OpenId](src/Shamyr.Opendentity.OpenId/OpenIdSettings.cs) | Settings for OpenIddict engine|
+|[Identity](src/Shamyr.Opendentity.OpenId/IdentitySettings.cs) | Settings for AspNet identity|
+|[Email](src/Shamyr.Opendentity.Emails/EmailClientSettings.cs) | Settings for email cliemt|
+|[Validation](src/Shamyr.Opendentity.Service/Settings/ValidationSettings.cs) | API validaton settings|
+|[Ui](src/Shamyr.Opendentity.Service/Settings/UISettings.cs) | Settings for UI|
+|[RateLimits](https://github.com/stefanprodan/AspNetCoreRateLimit/blob/master/src/AspNetCoreRateLimit/Models/IpRateLimitOptions.cs)| Settings for API rate limits|
