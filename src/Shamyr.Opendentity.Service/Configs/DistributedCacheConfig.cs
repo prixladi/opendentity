@@ -1,14 +1,18 @@
-﻿using Microsoft.Extensions.Caching.StackExchangeRedis;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Shamyr.Opendentity.Service.Settings;
 using StackExchange.Redis;
 
 namespace Shamyr.Opendentity.Service.Configs
 {
     public static class DistributedCacheConfig
     {
-        public static void SetupRedis(RedisCacheOptions options)
+        public static void SetupWithRedis(IServiceCollection services, RedisSettings redisSettings)
         {
-            options.ConfigurationOptions = ConfigurationOptions.Parse(EnvVariable.Get(EnvVariables._RedisConnectionString));
-            options.InstanceName = "ac-";
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.ConfigurationOptions = ConfigurationOptions.Parse(redisSettings.ConnectionString);
+                options.InstanceName = redisSettings.CacheInstanceName;
+            });
         }
     }
 }

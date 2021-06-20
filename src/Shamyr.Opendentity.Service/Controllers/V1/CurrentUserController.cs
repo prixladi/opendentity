@@ -28,9 +28,11 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <response code="200">Returns user</response>
+        /// <response code="401">User is unauthorized</response>
         [HttpGet]
         [Authorize]
         [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
         public async Task<UserModel> UpdatAsync(CancellationToken cancellationToken)
         {
             return await sender.Send(new GetCurrentUserQuery(), cancellationToken);
@@ -43,10 +45,12 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <response code="204">User updated</response>
+        /// <response code="401">User is unauthorized</response>
         /// <response code="409">User with provided email or username already exists</response>
         [HttpPut]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status409Conflict)]
         public async Task<NoContentResult> UpdatAsync(UpdateUserModel model, CancellationToken cancellationToken)
         {
@@ -61,10 +65,12 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <response code="204">User password changed</response>
+        /// <response code="401">User is unauthorized</response>
         /// <response code="409">User does not have password set</response>
         [HttpPatch("change-password")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status409Conflict)]
         public async Task<NoContentResult> ChangePasswordAsync(ChangePasswordModel model, CancellationToken cancellationToken)
         {
@@ -79,6 +85,7 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <response code="204">User password set</response>
+        /// <response code="401">User is unauthorized</response>
         /// <response code="409">User has already password set</response>
         [HttpPatch("set-password")]
         [Authorize]
@@ -88,23 +95,6 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         public async Task<NoContentResult> SetPasswordAsync(SetPasswordModel model, CancellationToken cancellationToken)
         {
             await sender.Send(new SetCurrentUserPasswordCommand(model), cancellationToken);
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Logs current user out by invalidating his refresh tokens, codes etc...
-        /// This doesn't affect access tokens
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <response code="204">User logged out</response>
-        [HttpPost("logout")]
-        [Authorize]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
-        public async Task<NoContentResult> LogoutAsyncAsync(CancellationToken cancellationToken)
-        {
-            await sender.Send(new LogoutCurrentUser(), cancellationToken);
             return NoContent();
         }
     }

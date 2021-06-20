@@ -4,9 +4,9 @@ using Shamyr.Opendentity.Database.Entities;
 
 namespace Shamyr.Opendentity.Database.EntityConfigurations
 {
-    public class SettingsEntityConfiguration: IEntityTypeConfiguration<Settings>
+    public class SettingsEntityConfiguration: IEntityTypeConfiguration<DbSettings>
     {
-        public void Configure(EntityTypeBuilder<Settings> builder)
+        public void Configure(EntityTypeBuilder<DbSettings> builder)
         {
             builder.HasKey(e => e.Key);
         }

@@ -16,7 +16,7 @@ namespace Shamyr.Opendentity.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "6.0.0-preview.4.21253.1")
+                .HasAnnotation("ProductVersion", "6.0.0-preview.5.21301.9")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -24,8 +24,7 @@ namespace Shamyr.Opendentity.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnName("id");
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text")
@@ -54,8 +53,7 @@ namespace Shamyr.Opendentity.Database.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnName("id");
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text")
@@ -345,6 +343,10 @@ namespace Shamyr.Opendentity.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("UserName", "Email", "FirstName", "LastName")
+                        .HasDatabaseName("ix_asp_net_users_user_name_email_first_name_last_name")
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -399,6 +401,22 @@ namespace Shamyr.Opendentity.Database.Migrations
                         .HasDatabaseName("ix_open_iddict_authorizations_application_id_status_subject_type");
 
                     b.ToTable("OpenIddictAuthorizations");
+                });
+
+            modelBuilder.Entity("Shamyr.Opendentity.Database.Entities.DbSettings", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasColumnType("text")
+                        .HasColumnName("key");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
+                    b.HasKey("Key")
+                        .HasName("pk_db_settings");
+
+                    b.ToTable("db_settings");
                 });
 
             modelBuilder.Entity("Shamyr.Opendentity.Database.Entities.EmailTemplate", b =>
@@ -485,22 +503,6 @@ namespace Shamyr.Opendentity.Database.Migrations
                         .HasDatabaseName("ix_open_iddict_scopes_name");
 
                     b.ToTable("OpenIddictScopes");
-                });
-
-            modelBuilder.Entity("Shamyr.Opendentity.Database.Entities.Settings", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasColumnType("text")
-                        .HasColumnName("key");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text")
-                        .HasColumnName("value");
-
-                    b.HasKey("Key")
-                        .HasName("pk_settings");
-
-                    b.ToTable("settings");
                 });
 
             modelBuilder.Entity("Shamyr.Opendentity.Database.Entities.Token", b =>

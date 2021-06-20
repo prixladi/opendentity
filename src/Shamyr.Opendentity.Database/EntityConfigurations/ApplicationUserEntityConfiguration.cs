@@ -10,6 +10,9 @@ namespace Shamyr.Opendentity.Database.EntityConfigurations
         {
             builder.HasIndex(e => e.NormalizedEmail)
                 .IsUnique();
+
+            builder.HasIndex(e => new { e.UserName, e.Email, e.FirstName, e.LastName })
+                .IsTsVectorExpressionIndex(Constants._FullTextLanguage);
         }
     }
 }

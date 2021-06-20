@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Service.Models;
 
@@ -20,6 +22,14 @@ namespace Shamyr.Opendentity.Service.Extensions
                 LastName = user.LastName,
                 ImageUrl = user.ImageUrl
             };
+        }
+
+        public static ICollection<UserModel> ToModel(this IEnumerable<ApplicationUser> users)
+        {
+            if (users is null)
+                throw new ArgumentNullException(nameof(users));
+
+            return users.Select(x => x.ToModel()).ToArray();
         }
     }
 }

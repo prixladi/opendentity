@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Auth" Version="1.51.0" />
-    <PackageReference Include="OpenIddict" Version="3.0.4" />
-    <PackageReference Include="OpenIddict.Server.AspNetCore" Version="3.0.4" />
-    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.0.4" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.52.0" />
+    <PackageReference Include="OpenIddict" Version="3.0.5" />
+    <PackageReference Include="OpenIddict.Server.AspNetCore" Version="3.0.5" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.0.5" />
   </ItemGroup>
 
   <ItemGroup>

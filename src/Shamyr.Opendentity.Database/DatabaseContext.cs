@@ -1,24 +1,25 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Shamyr.Opendentity.Database.Entities;
 
 namespace Shamyr.Opendentity.Database
 {
     public class DatabaseContext: IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
-        private readonly IDatabaseConfig config;
+        private readonly IOptions<DatabaseSettings> options;
 
-        public DbSet<Settings> Settings => Set<Settings>();
+        public DbSet<DbSettings> DbSettings => Set<DbSettings>();
         public DbSet<EmailTemplate> EmailTemplates => Set<EmailTemplate>();
 
-        public DatabaseContext(IDatabaseConfig config)
+        public DatabaseContext(IOptions<DatabaseSettings> options)
         {
-            this.config = config;
+            this.options = options;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(config.ConnectionString);
+            optionsBuilder.UseNpgsql(options.Value.ConnectionString);
             //optionsBuilder.UseNpgsql("Host=localhost;Database=idnetity;Username=admin;Password=password");
             optionsBuilder.UseOpenIddict<Application, Authorization, Scope, Token, string>();
             optionsBuilder.UseSnakeCaseNamingConvention();

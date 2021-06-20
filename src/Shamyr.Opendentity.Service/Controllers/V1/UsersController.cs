@@ -8,6 +8,7 @@ using Shamyr.AspNetCore.HttpErrors;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.CQRS.Queries;
 using Shamyr.Opendentity.Service.Models;
+using Shamyr.Opendentity.Service.Validation.Models;
 
 namespace Shamyr.Opendentity.Service.Controllers.V1
 {
@@ -34,6 +35,7 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         /// <response code="409">User with provided email or username already exists</response>
         [HttpPost]
         [ProducesResponseType(typeof(CreatedModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status409Conflict)]
         public async Task<CreatedAtRouteResult> CreateAsync(CreateUserModel model, CancellationToken cancellationToken)
         {
@@ -42,7 +44,44 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         }
 
         /// <summary>
-        /// Get's user by provided id
+        /// Gets users by provided filter
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns users</response>
+        /// <response code="401">User is unauthorized</response>
+        /// <response code="403">User needs to be admin to perform this action</response>
+        [HttpGet]
+        [Authorize(Roles = Constants.Auth._AdminRole)]
+        [ProducesResponseType(typeof(UsersModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
+        public async Task<UsersModel> GetAsync([FromQuery] UsersFilterModel model, CancellationToken cancellationToken)
+        {
+            return await sender.Send(new GetUsersQuery(model), cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets total user count
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns user count</response>
+        /// <response code="401">User is unauthorized</response>
+        /// <response code="403">User needs to be admin to perform this action</response>
+        [HttpGet("count")]
+        [Authorize(Roles = Constants.Auth._AdminRole)]
+        [ProducesResponseType(typeof(CountModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
+        public async Task<CountModel> GetCountAsync(CancellationToken cancellationToken)
+        {
+            return await sender.Send(new GetUserCountQuery(), cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets user by provided id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
@@ -54,6 +93,7 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         [HttpGet("{id}", Name = _GetUserAction)]
         [Authorize(Roles = Constants.Auth._AdminRole)]
         [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status404NotFound)]
         public async Task<UserModel> GetByIdAsync(string id, CancellationToken cancellationToken)
@@ -75,6 +115,7 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
         [HttpPut("{id}/disabled")]
         [Authorize(Roles = Constants.Auth._AdminRole)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status404NotFound)]
         public async Task<NoContentResult> UpdateDisabledAsync(string id, UpdateDisabledModel model, CancellationToken cancellationToken)

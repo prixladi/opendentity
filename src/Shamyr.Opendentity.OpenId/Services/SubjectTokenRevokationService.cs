@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenIddict.Core;
+using Shamyr.Linq.Async;
 using Shamyr.Opendentity.Database.Entities;
 
 namespace Shamyr.Opendentity.OpenId.Services
@@ -16,7 +18,11 @@ namespace Shamyr.Opendentity.OpenId.Services
 
         public async Task RevokeAllAsync(string subId, CancellationToken cancellationToken)
         {
-            await foreach (var token in tokenManager.FindBySubjectAsync(subId, cancellationToken))
+            var data = await tokenManager
+                .ListAsync(q => q.Where(e => e.Subject == subId && e.Status != "revoked"), cancellationToken)
+                .ToListAsync(cancellationToken);
+
+            foreach (var token in data)
                 await tokenManager.TryRevokeAsync(token, cancellationToken);
         }
     }

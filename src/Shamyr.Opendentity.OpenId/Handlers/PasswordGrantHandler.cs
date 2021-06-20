@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using Shamyr.Opendentity.Database.Entities;
@@ -17,16 +18,16 @@ namespace Shamyr.Opendentity.OpenId.Handlers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IOpenIdConfig config;
+        private readonly IOptions<OpenIdSettings> options;
 
         public PasswordGrantHandler(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            IOpenIdConfig config)
+            IOptions<OpenIdSettings> options)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
-            this.config = config;
+            this.options = options;
         }
 
         public bool CanHandle(OpenIddictRequest request)
@@ -40,7 +41,7 @@ namespace Shamyr.Opendentity.OpenId.Handlers
             if (user == null || user.Disabled)
                 throw Forbidden();
 
-            if (config.RequireConfirmedAccount && !user.EmailConfirmed)
+            if (options.Value.RequireConfirmedAccount && !user.EmailConfirmed)
                 throw new EmailNotVerifiedException(user.Email);
 
             var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);

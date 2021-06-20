@@ -34,5 +34,16 @@ namespace Shamyr.Opendentity.Service.Controllers
             var principal = await sender.Send(new TokenCommand(request), cancellationToken);
             return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
+
+        /// <summary>
+        /// Logs current user out by invalidating his refresh tokens, codes etc...
+        /// This doesn't affect access tokens if reference tokens are not used.
+        /// </summary>
+        [HttpPost(OpenIdConstants._LogoutRoute), Produces("application/json")]
+        public async Task<IActionResult> LogoutAsync(CancellationToken cancellationToken)
+        {
+            await sender.Send(new LogoutCommand(), cancellationToken);
+            return NoContent();
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Shamyr.Opendentity.Database.Entities
 {
-    public class Settings
+    public class DbSettings
     {
         public const string _InitKey = "init";
 

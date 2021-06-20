@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OpenIddict.Core;
 using Shamyr.Opendentity.Database;
 using Shamyr.Opendentity.Database.Entities;
@@ -21,14 +22,14 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
     public class InitializeDbCommandHandler: IRequestHandler<InitializeDbCommand>
     {
         private readonly DatabaseContext databaseContext;
-        private readonly IDatabaseInitConfig databaseInitConfig;
+        private readonly IOptions<DatabaseInitSettings> options;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly OpenIddictApplicationManager<Application> applicationManager;
         private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IEmailTemplateManager emailTemplateManager;
         private readonly ILogger<InitializeDbCommandHandler> logger;
 
-        private DbSet<Settings> Set => databaseContext.Settings;
+        private DbSet<DbSettings> Set => databaseContext.DbSettings;
 
         public InitializeDbCommandHandler(
             DatabaseContext databaseContext,
@@ -36,7 +37,7 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
             OpenIddictApplicationManager<Application> applicationManager,
             RoleManager<ApplicationRole> roleManager,
             IEmailTemplateManager emailTemplateManager,
-            IDatabaseInitConfig databaseInitConfig,
+            IOptions<DatabaseInitSettings> options,
             ILogger<InitializeDbCommandHandler> logger)
         {
             this.databaseContext = databaseContext;
@@ -44,17 +45,17 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
             this.applicationManager = applicationManager;
             this.roleManager = roleManager;
             this.emailTemplateManager = emailTemplateManager;
-            this.databaseInitConfig = databaseInitConfig;
+            this.options = options;
             this.logger = logger;
         }
 
         public async Task<Unit> Handle(InitializeDbCommand request, CancellationToken cancellationToken)
         {
-            var settings = Set.SingleOrDefault(e => e.Key == Settings._InitKey);
+            var settings = Set.SingleOrDefault(e => e.Key == DbSettings._InitKey);
             if (settings is not null)
                 return Unit.Value;
 
-            Set.Add(new Settings { Key = Settings._InitKey });
+            Set.Add(new DbSettings { Key = DbSettings._InitKey, Value = DateTime.UtcNow.ToString() });
             await databaseContext.SaveChangesAsync(cancellationToken);
 
             await roleManager.CreateAsync(new ApplicationRole(Constants.Auth._AdminRole));
@@ -94,16 +95,16 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
 
         private async Task<RootInitDto> GetInitDataAsync(CancellationToken cancellationToken)
         {
-            if (databaseInitConfig.InitFilePath is null)
+            if (options.Value.InitFilePath is null)
             {
-                logger.LogWarning($"No '{nameof(databaseInitConfig.InitFilePath)}' was specified, consider configuring database before you start using application.");
+                logger.LogWarning($"No '{nameof(options.Value.InitFilePath)}' was specified, consider configuring database before you start using application.");
                 return new RootInitDto();
             }
 
-            using var stream = File.OpenRead(databaseInitConfig.InitFilePath);
+            using var stream = File.OpenRead(options.Value.InitFilePath);
 
             return await JsonSerializer.DeserializeAsync<RootInitDto>(stream, cancellationToken: cancellationToken)
-                ?? throw new InvalidOperationException($"Unable to retrive db init root from '{databaseInitConfig.InitFilePath}'");
+                ?? throw new InvalidOperationException($"Unable to retrive db init root from '{options.Value.InitFilePath}'");
         }
     }
 }

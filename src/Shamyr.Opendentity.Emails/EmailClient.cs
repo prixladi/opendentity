@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Shamyr.Opendentity.Emails
 {
@@ -12,13 +13,13 @@ namespace Shamyr.Opendentity.Emails
     // TODO: Implement client using some service like Mailgun.
     public class EmailClient: IEmailClient
     {
-        private readonly IEmailClientConfig config;
+        private readonly IOptions<EmailClientSettings> options;
         private readonly ILogger<EmailClient> logger;
         private readonly HttpClient httpClient;
 
-        public EmailClient(IEmailClientConfig config, ILogger<EmailClient> logger, HttpClient httpClient)
+        public EmailClient(IOptions<EmailClientSettings> options, ILogger<EmailClient> logger, HttpClient httpClient)
         {
-            this.config = config;
+            this.options = options;
             this.logger = logger;
             this.httpClient = httpClient;
         }
@@ -40,15 +41,15 @@ namespace Shamyr.Opendentity.Emails
                      new KeyValuePair<string?, string?>("subject", subject),
                      new KeyValuePair<string?, string?>("message", body.Content),
                      new KeyValuePair<string?, string?>("isBodyHtml", body.IsHtml.ToString().ToLower()),
-                     new KeyValuePair<string?, string?>("sender", config.SenderAddress)
+                     new KeyValuePair<string?, string?>("sender", options.Value.SenderAddress)
                 });
 
-                await httpClient.PostAsync(config.ServerUrl, formContent, cancellationToken);
-                logger.LogInformation($"Email with subject '{subject}' from '{config.SenderAddress}' to '{recipient.Address}' succesfuly sent.");
+                await httpClient.PostAsync(options.Value.ServerUrl, formContent, cancellationToken);
+                logger.LogInformation($"Email with subject '{subject}' from '{options.Value.SenderAddress}' to '{recipient.Address}' succesfuly sent.");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Error occured while sending with subject '{subject}' from '{config.SenderAddress}' to '{recipient.Address}'.");
+                logger.LogError(ex, $"Error occured while sending with subject '{subject}' from '{options.Value.SenderAddress}' to '{recipient.Address}'.");
             }
         }
 

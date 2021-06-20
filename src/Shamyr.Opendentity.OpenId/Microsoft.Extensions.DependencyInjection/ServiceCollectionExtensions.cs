@@ -1,4 +1,4 @@
-﻿using System;
+﻿using hamyr.Opendentity.OpenId.HostedServices;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Validation.AspNetCore;
 using Shamyr.Opendentity.Database;
@@ -13,15 +13,12 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddOpenId<TConfig>(this IServiceCollection services, Action<OpenIdBuilder>? setupBuilder = null)
-            where TConfig : class, IOpenIdConfig
+        public static OpenIdBuilder AddOpenId(this IServiceCollection services)
         {
-            var builder = new OpenIdBuilder();
-            setupBuilder?.Invoke(builder);
-
-            services.AddTransient<IOpenIdConfig, TConfig>();
             services.AddTransient<IUserValidationService, UserValidationService>();
             services.AddTransient<ISubjectTokenRevokationService, SubjectTokenRevokationService>();
+
+            services.AddHostedService<TokenPruningService>();
 
             services.AddOpenIddict()
               .AddCore(opt =>
@@ -35,13 +32,12 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddServer(opt =>
               {
                   opt.SetTokenEndpointUris(OpenIdConstants._TokenRoute)
-                    .SetUserinfoEndpointUris(OpenIdConstants._UserInfoRoute);
-
-                  opt.SetAccessTokenLifetime(builder.AccessTokenDuration);
-                  opt.SetRefreshTokenLifetime(builder.RefreshTokenDuration);
+                    .SetUserinfoEndpointUris(OpenIdConstants._UserInfoRoute)
+                    .SetLogoutEndpointUris(OpenIdConstants._LogoutRoute);
 
                   opt.UseAspNetCore()
                     .EnableTokenEndpointPassthrough()
+                    .EnableLogoutEndpointPassthrough()
                     .DisableTransportSecurityRequirement();
 
                   opt.AddDevelopmentEncryptionCertificate();
@@ -70,33 +66,17 @@ namespace Microsoft.Extensions.DependencyInjection
             });
             services.AddTransient<IGrantHandlerFactory, GrantHandlerFactory>();
 
-            return services;
+            return new OpenIdBuilder(services);
         }
 
-        public static IServiceCollection AddIdentity(this IServiceCollection services)
+        public static IdentityBuilder AddIdentity(this IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.ClaimsIdentity.UserNameClaimType = Claims.Name;
-                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
-                options.ClaimsIdentity.RoleClaimType = Claims.Role;
-                options.ClaimsIdentity.EmailClaimType = Claims.Email;
-
-                options.User.RequireUniqueEmail = true;
-                options.User.AllowedUserNameCharacters = Utils._AllowedUsernameCharacters;
-            });
-
             services.AddAuthentication(b =>
             {
                 b.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
             });
 
-            services.AddIdentityCore<ApplicationUser>(opt =>
-            {
-                opt.Password.RequiredLength = 6;
-                opt.Password.RequireUppercase = false;
-                opt.Password.RequireNonAlphanumeric = false;
-            })
+            services.AddIdentityCore<ApplicationUser>()
               .AddSignInManager<SignInManager<ApplicationUser>>()
               .AddRoles<ApplicationRole>()
               .AddRoleManager<RoleManager<ApplicationRole>>()
@@ -104,7 +84,7 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddEntityFrameworkStores<DatabaseContext>()
               .AddDefaultTokenProviders();
 
-            return services;
+            return new IdentityBuilder(services);
         }
     }
 }

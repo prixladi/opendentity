@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Shamyr.Opendentity.Database.Migrations
@@ -49,6 +48,18 @@ namespace Shamyr.Opendentity.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_asp_net_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "db_settings",
+                columns: table => new
+                {
+                    key = table.Column<string>(type: "text", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_db_settings", x => x.key);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,23 +120,10 @@ namespace Shamyr.Opendentity.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "settings",
-                columns: table => new
-                {
-                    key = table.Column<string>(type: "text", nullable: false),
-                    value = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_settings", x => x.key);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    id = table.Column<int>(type: "integer", nullable: false),
                     role_id = table.Column<string>(type: "text", nullable: false),
                     claim_type = table.Column<string>(type: "text", nullable: true),
                     claim_value = table.Column<string>(type: "text", nullable: true)
@@ -145,8 +143,7 @@ namespace Shamyr.Opendentity.Database.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    id = table.Column<int>(type: "integer", nullable: false),
                     user_id = table.Column<string>(type: "text", nullable: false),
                     claim_type = table.Column<string>(type: "text", nullable: true),
                     claim_value = table.Column<string>(type: "text", nullable: true)
@@ -319,6 +316,11 @@ namespace Shamyr.Opendentity.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "ix_asp_net_users_user_name_email_first_name_last_name",
+                table: "AspNetUsers",
+                columns: new[] { "user_name", "email", "first_name", "last_name" });
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "normalized_user_name",
@@ -382,6 +384,9 @@ namespace Shamyr.Opendentity.Database.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "db_settings");
+
+            migrationBuilder.DropTable(
                 name: "email_templates");
 
             migrationBuilder.DropTable(
@@ -389,9 +394,6 @@ namespace Shamyr.Opendentity.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens");
-
-            migrationBuilder.DropTable(
-                name: "settings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

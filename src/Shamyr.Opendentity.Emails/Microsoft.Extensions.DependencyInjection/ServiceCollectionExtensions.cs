@@ -9,13 +9,10 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddEmailClient<TConfig>(this IServiceCollection services)
-            where TConfig : class, IEmailClientConfig
+        public static IServiceCollection AddEmailClient(this IServiceCollection services)
         {
             services.AddHttpClient<IEmailClient, EmailClient>()
                 .AddPolicyHandler(GetRetryPolicy);
-
-            services.AddTransient<IEmailClientConfig, TConfig>();
 
             return services;
         }

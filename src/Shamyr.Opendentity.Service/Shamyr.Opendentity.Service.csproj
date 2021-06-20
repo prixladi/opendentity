@@ -8,21 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Auth" Version="1.51.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.2.3" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.52.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0-preview.5.21301.17" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.4.21253.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.5.21301.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.4.21253.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.5.21301.9" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.0-preview.5.21301.17" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0-preview.4.21274.1" />
-    <PackageReference Include="OpenIddict" Version="3.0.4" />
-    <PackageReference Include="OpenIddict.Server.AspNetCore" Version="3.0.4" />
-    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.0.4" />
+    <PackageReference Include="OpenIddict" Version="3.0.5" />
+    <PackageReference Include="OpenIddict.Server.AspNetCore" Version="3.0.5" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 

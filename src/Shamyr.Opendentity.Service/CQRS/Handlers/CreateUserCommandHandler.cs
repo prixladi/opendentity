@@ -4,16 +4,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Emails;
 using Shamyr.Opendentity.OpenId;
 using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.OpenId.Services;
+using Shamyr.Opendentity.Service.Configs;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.Extensions;
 using Shamyr.Opendentity.Service.Models;
 using Shamyr.Opendentity.Service.Services;
+using Shamyr.Opendentity.Service.Validation.Models;
 
 namespace Shamyr.Opendentity.Service.CQRS.Handlers
 {
@@ -21,20 +24,23 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IEmailTemplateManager emailTemplateManager;
-        private readonly IOpenIdConfig openIdConfig;
+        private readonly IOptions<OpenIdSettings> options;
+        private readonly IOptions<UISettings> uiOptions;
         private readonly IEmailClient emailClient;
         private readonly IUserValidationService userValidationService;
 
         public CreateUserCommandHandler(
             UserManager<ApplicationUser> userManager,
             IEmailTemplateManager emailTemplateManager,
-            IOpenIdConfig openIdConfig,
+            IOptions<OpenIdSettings> options,
+            IOptions<UISettings> uiOptions,
             IEmailClient emailClient,
             IUserValidationService userValidationService)
         {
             this.userManager = userManager;
             this.emailTemplateManager = emailTemplateManager;
-            this.openIdConfig = openIdConfig;
+            this.options = options;
+            this.uiOptions = uiOptions;
             this.emailClient = emailClient;
             this.userValidationService = userValidationService;
         }
@@ -79,12 +85,12 @@ namespace Shamyr.Opendentity.Service.CQRS.Handlers
         private async Task SendConfirmationEmailAsync(string email, string token, CancellationToken cancellationToken)
         {
             var template = await emailTemplateManager.TryGetTemplateAsync(EmailTemplateType.ConfirmationEmail, cancellationToken);
-            if (openIdConfig.RequireConfirmedAccount && template is null)
+            if (options.Value.RequireConfirmedAccount && template is null)
                 throw new InvalidOperationException("Server doesn't have confirmation email set and confirmed account is required for user to log in.");
             else if (template is not null)
             {
                 var recipient = new MailAddress(email);
-                var dto = template.ToConfirmationEmail(token: token, email: email);
+                var dto = template.ToConfirmationEmail(token: token, email: email, portalUrl: uiOptions.Value.ToString());
                 await emailClient.SendEmailAsync(recipient, dto, cancellationToken);
             }
         }
