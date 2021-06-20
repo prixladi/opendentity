@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Shamyr.Opendentity.Emails;
 
-namespace Shamyr.Opendentity.Emails.Microsoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     public class EmailClientBuilder
     {
@@ -23,16 +23,6 @@ namespace Shamyr.Opendentity.Emails.Microsoft.Extensions.DependencyInjection
                 Services.Configure<EmailClientSettings>(configuration);
 
             Services.Configure<T>(configuration);
-
-            return this;
-        }
-
-        public EmailClientBuilder ConfigureSettings(Action<EmailClientSettings> configure)
-        {
-            if (configure is null)
-                throw new ArgumentNullException(nameof(configure));
-
-            Services.Configure(configure);
 
             return this;
         }

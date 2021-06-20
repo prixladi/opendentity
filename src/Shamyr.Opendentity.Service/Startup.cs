@@ -45,10 +45,10 @@ namespace Shamyr.Opendentity.Service
                 .ConfigureSettings<OpenIdSettings>(configuration.GetSection(Constants.SettingSections._OpenId));
 
             services.AddIdentity()
-                .ConfigureSettings<IdentityOptions>(configuration.GetSection(Constants.SettingSections._Identity));
+                .ConfigureSettings<IdentitySettings>(configuration.GetSection(Constants.SettingSections._Identity));
 
             services.AddEmailClient()
-                .Configure<EmailClientSettings>(configuration.GetSection(Constants.SettingSections._Email));
+                .ConfigureSettings<EmailClientSettings>(configuration.GetSection(Constants.SettingSections._Email));
 
             services.Configure<UISettings>(configuration.GetSection(Constants.SettingSections._Ui));
             services.Configure<ValidationSettings>(configuration.GetSection(Constants.SettingSections._Validation));

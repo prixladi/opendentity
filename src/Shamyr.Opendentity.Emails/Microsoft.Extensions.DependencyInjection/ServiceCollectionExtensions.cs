@@ -9,12 +9,12 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static partial class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddEmailClient(this IServiceCollection services)
+        public static EmailClientBuilder AddEmailClient(this IServiceCollection services)
         {
             services.AddHttpClient<IEmailClient, EmailClient>()
                 .AddPolicyHandler(GetRetryPolicy);
 
-            return services;
+            return new EmailClientBuilder(services);
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy(IServiceProvider provider, HttpRequestMessage httpRequestMessage)

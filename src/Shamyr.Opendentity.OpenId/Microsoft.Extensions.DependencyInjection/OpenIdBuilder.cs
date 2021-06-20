@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
+using OpenIddict.Server;
 using Shamyr.Opendentity.OpenId;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -22,17 +23,8 @@ namespace Microsoft.Extensions.DependencyInjection
             if (typeof(T) != typeof(OpenIdSettings))
                 Services.Configure<OpenIdSettings>(configuration);
 
+            Services.Configure<OpenIddictServerOptions>(configuration);
             Services.Configure<T>(configuration);
-
-            return this;
-        }
-
-        public OpenIdBuilder ConfigureSettings(Action<OpenIdSettings> configure)
-        {
-            if (configure is null)
-                throw new ArgumentNullException(nameof(configure));
-
-            Services.Configure(configure);
 
             return this;
         }

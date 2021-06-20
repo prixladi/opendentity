@@ -26,15 +26,5 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return this;
         }
-
-        public DatabaseBuilder ConfigureSettings(Action<DatabaseSettings> configure)
-        {
-            if (configure is null)
-                throw new ArgumentNullException(nameof(configure));
-
-            Services.Configure(configure);
-
-            return this;
-        }
     }
 }

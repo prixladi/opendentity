@@ -16,15 +16,30 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         public IdentityBuilder ConfigureSettings<T>(IConfigurationSection configuration)
-            where T : IdentityOptions
+            where T : IdentitySettings
         {
             if (configuration is null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            if (typeof(T) != typeof(IdentityOptions))
-                Services.Configure<IdentityOptions>(configuration);
+            ConfigureDefault<IdentityOptions>();
+            ConfigureDefault<T>();
 
-            Services.Configure<IdentityOptions>(options =>
+            if (typeof(T) != typeof(IdentitySettings))
+            {
+                ConfigureDefault<IdentitySettings>();
+                Services.Configure<IdentitySettings>(configuration);
+            }
+
+            Services.Configure<T>(configuration);
+            Services.Configure<IdentityOptions>(configuration);
+
+            return this;
+        }
+
+        private void ConfigureDefault<T>()
+            where T : IdentityOptions
+        {
+            Services.Configure<T>(options =>
             {
                 options.ClaimsIdentity.UserNameClaimType = Claims.Name;
                 options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
@@ -33,19 +48,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 options.User.AllowedUserNameCharacters = Utils._AllowedUsernameCharacters;
             });
-
-            Services.Configure<T>(configuration);
-            return this;
-        }
-
-        public IdentityBuilder ConfigureSettings(Action<IdentityOptions> configure)
-        {
-            if (configure is null)
-                throw new ArgumentNullException(nameof(configure));
-
-            Services.Configure(configure);
-
-            return this;
         }
     }
 }
