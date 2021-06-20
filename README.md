@@ -12,7 +12,7 @@ Json file with init data - [InitData.json](src/Shamyr.Opendentity.Service/InitDa
 
 |Class | Desription|
 |:--- |  :---:|
-|[Database](src/Shamyr.Opendentity.Database/DatabaseSettings.cs) | Settings to database connection|
+|[Database](src/Shamyr.Opendentity.Database/DatabaseSettings.cs) | Settings for database connection|
 |[DatabaseInit](src/Shamyr.Opendentity.Service/DatabaseInit/DatabaseInitSettings.cs) | Settings for database init eg. path to json data |
 |[Redis](src/Shamyr.Opendentity.Service/Settings/RedisSettings.cs) | Settings for redis|
 |[OpenId](src/Shamyr.Opendentity.OpenId/OpenIdSettings.cs) | Settings for OpenIddict engine|
