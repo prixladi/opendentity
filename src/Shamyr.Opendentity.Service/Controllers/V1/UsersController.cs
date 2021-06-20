@@ -1,14 +1,16 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using AspNetCoreRateLimit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Shamyr.AspNetCore.HttpErrors;
 using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.CQRS.Queries;
 using Shamyr.Opendentity.Service.Models;
-using Shamyr.Opendentity.Service.Validation.Models;
 
 namespace Shamyr.Opendentity.Service.Controllers.V1
 {
@@ -20,8 +22,10 @@ namespace Shamyr.Opendentity.Service.Controllers.V1
 
         private readonly ISender sender;
 
-        public UsersController(ISender sender)
+        public UsersController(ISender sender, IOptions<IpRateLimitOptions> opt)
         {
+            if (opt is null)
+                throw new ArgumentNullException(nameof(opt));
             this.sender = sender;
         }
 

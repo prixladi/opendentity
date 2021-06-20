@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Options;
 using Shamyr.Opendentity.Service.Models;
 using Shamyr.Opendentity.Service.Settings;

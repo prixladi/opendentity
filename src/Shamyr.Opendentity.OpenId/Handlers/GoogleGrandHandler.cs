@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
-using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.OpenId.Exceptions;
 using Shamyr.Opendentity.OpenId.Extensions;

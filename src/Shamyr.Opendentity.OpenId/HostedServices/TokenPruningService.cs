@@ -11,7 +11,7 @@ namespace hamyr.Opendentity.OpenId.HostedServices
 {
     using Manager = OpenIddictTokenManager<Token>;
 
-    public class TokenPruningService : BackgroundService
+    public class TokenPruningService: BackgroundService
     {
         private readonly IServiceProvider serviceProvider;
 

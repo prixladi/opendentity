@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Shamyr.Exceptions;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.OpenId.Extensions;
 using Shamyr.Opendentity.Service.CQRS.Commands;

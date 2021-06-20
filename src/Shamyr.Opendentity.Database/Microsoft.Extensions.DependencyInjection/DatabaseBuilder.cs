@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         public DatabaseBuilder ConfigureSettings<T>(IConfigurationSection configuration)
-            where T: DatabaseSettings
+            where T : DatabaseSettings
         {
             if (configuration is null)
                 throw new ArgumentNullException(nameof(configuration));

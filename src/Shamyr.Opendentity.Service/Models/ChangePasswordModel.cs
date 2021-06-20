@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Shamyr.Opendentity.Service.Models
+﻿namespace Shamyr.Opendentity.Service.Models
 {
     public record ChangePasswordModel
     {

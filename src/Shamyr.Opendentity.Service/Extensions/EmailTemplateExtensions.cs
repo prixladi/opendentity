@@ -1,7 +1,6 @@
 ﻿using System;
 using Shamyr.Opendentity.Database.Entities;
 using Shamyr.Opendentity.Emails;
-using Shamyr.Opendentity.Service.Configs;
 
 namespace Shamyr.Opendentity.Service.Extensions
 {

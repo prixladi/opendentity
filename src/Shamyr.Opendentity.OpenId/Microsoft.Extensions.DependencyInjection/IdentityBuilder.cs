@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Shamyr.Opendentity.OpenId;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 

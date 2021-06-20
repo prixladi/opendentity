@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Shamyr.Opendentity.Database.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreate: Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -17,8 +17,8 @@ namespace Shamyr.Opendentity.Service.Validation
                 return System.Uri.TryCreate(url, UriKind.Absolute, out _);
             }
 
-           return opt.Must(MustBeAUri)
-              .WithMessage("Link '{PropertyValue}' must be a valid URI. eg: http://www.SomeWebSite.com");
+            return opt.Must(MustBeAUri)
+               .WithMessage("Link '{PropertyValue}' must be a valid URI. eg: http://www.SomeWebSite.com");
         }
     }
 }

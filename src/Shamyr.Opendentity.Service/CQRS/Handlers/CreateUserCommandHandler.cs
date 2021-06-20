@@ -16,7 +16,6 @@ using Shamyr.Opendentity.Service.CQRS.Commands;
 using Shamyr.Opendentity.Service.Extensions;
 using Shamyr.Opendentity.Service.Models;
 using Shamyr.Opendentity.Service.Services;
-using Shamyr.Opendentity.Service.Validation.Models;
 
 namespace Shamyr.Opendentity.Service.CQRS.Handlers
 {

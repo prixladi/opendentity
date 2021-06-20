@@ -1,4 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using AspNetCoreRateLimit;
+using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -52,6 +53,7 @@ namespace Shamyr.Opendentity.Service
             services.Configure<UISettings>(configuration.GetSection(Constants.SettingSections._Ui));
             services.Configure<ValidationSettings>(configuration.GetSection(Constants.SettingSections._Validation));
 
+            RateLimitConfig.Setup(services, configuration.GetSection(Constants.SettingSections._RateLimits));
             DistributedCacheConfig.SetupWithRedis(services, RedisSettings);
 
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
@@ -70,6 +72,8 @@ namespace Shamyr.Opendentity.Service
             app.UseSwaggerUI(SwaggerConfig.SetupSwaggerUI);
 
             app.UseRouting();
+
+            app.UseIpRateLimiting();
 
             app.UseAuthentication();
             app.UseAuthorization();
