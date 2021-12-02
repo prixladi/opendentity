@@ -19,7 +19,7 @@ public class UpdateUserEmailConfirmedCommandHandler: IRequestHandler<UpdateUserE
     private readonly IOptions<IdentityOptions> options;
 
     public UpdateUserEmailConfirmedCommandHandler(
-        UserManager<ApplicationUser> userManager, 
+        UserManager<ApplicationUser> userManager,
         ISubjectTokenRevokationService subjectTokenRevokationService,
         IOptions<IdentityOptions> options)
     {

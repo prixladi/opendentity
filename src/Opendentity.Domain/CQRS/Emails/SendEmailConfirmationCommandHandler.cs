@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Opendentity.Database.Entities;

@@ -35,7 +35,7 @@ internal class ApiEmailClient: IEmailClient
             senderDisplayName = settings.SenderDisplayName
         };
 
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, settings.ServerUrl);
+        var request = new HttpRequestMessage(HttpMethod.Post, settings.ServerUrl);
         foreach (var header in settings.Headers)
         {
             request.Headers.Add(header.Key, header.Value);

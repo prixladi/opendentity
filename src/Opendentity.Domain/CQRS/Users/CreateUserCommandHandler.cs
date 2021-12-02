@@ -7,9 +7,7 @@ using Opendentity.Domain.Models;
 using Opendentity.Domain.Services;
 using Opendentity.Domain.Settings;
 using Opendentity.Emails;
-using Opendentity.OpenId;
 using Opendentity.OpenId.Extensions;
-using Opendentity.OpenId.Services;
 using Shamyr.Exceptions;
 
 namespace Opendentity.Domain.CQRS.Users;

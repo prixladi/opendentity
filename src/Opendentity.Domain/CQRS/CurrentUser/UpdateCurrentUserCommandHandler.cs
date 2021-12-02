@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Opendentity.Database.Entities;
 using Opendentity.Domain.CQRS.Users;
 using Opendentity.OpenId.Extensions;
-using Opendentity.OpenId.Services;
 using Shamyr.Exceptions;
 
 namespace Opendentity.Domain.CQRS.CurrentUser;
