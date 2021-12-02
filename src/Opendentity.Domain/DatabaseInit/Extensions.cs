@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Opendentity.Database.Entities;
-using OpenIddict.Abstractions;
+﻿using Opendentity.Database.Entities;
 using Opendentity.OpenId;
+using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Opendentity.Domain.DatabaseInit;
@@ -51,7 +49,7 @@ public static class Extensions
     public static EmailTemplate ToTemplate(this EmailTemplateDto dto, EmailTemplateType type)
     {
         if (dto is null)
-            throw new System.ArgumentNullException(nameof(dto));
+            throw new ArgumentNullException(nameof(dto));
 
         return new EmailTemplate
         {
@@ -65,7 +63,7 @@ public static class Extensions
     public static ICollection<OpenIddictApplicationDescriptor> ToDescriptor(this ICollection<ApplicationInitDto> dtos)
     {
         if (dtos is null)
-            throw new System.ArgumentNullException(nameof(dtos));
+            throw new ArgumentNullException(nameof(dtos));
 
         return dtos.Select(ToDescriptor).ToList();
     }

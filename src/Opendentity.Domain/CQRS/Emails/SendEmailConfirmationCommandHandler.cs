@@ -42,7 +42,7 @@ public class SendEmailConfirmationCommandHandler: EmailRequestHandlerBase, IRequ
         if (user.EmailConfirmed) // TODO: Should we even send information that email is confirmed?
             throw new ConflictException($"User with email '{request.Email}' has email already confirmed.");
 
-        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        string? token = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
         var recipient = new MailAddress(user.Email);
         var dto = template.ToConfirmationEmail(token: token, email: user.Email, portalUrl: options.Value.PortalUrl.ToString());

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Opendentity.Database.Entities;
 using OpenIddict.Core;
 using Shamyr.Linq.Async;
-using Opendentity.Database.Entities;
 
 namespace Opendentity.OpenId.Services;
 

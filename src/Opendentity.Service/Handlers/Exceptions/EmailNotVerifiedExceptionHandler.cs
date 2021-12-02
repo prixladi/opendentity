@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Opendentity.OpenId.Exceptions;
 using Shamyr.AspNetCore.Handlers.Exceptions;
 using Shamyr.AspNetCore.HttpErrors;
-using Opendentity.OpenId.Exceptions;
 
 namespace Opendentity.Service.Handlers.Exceptions;
 

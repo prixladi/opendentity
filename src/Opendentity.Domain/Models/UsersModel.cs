@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Opendentity.Domain.Models;
+﻿namespace Opendentity.Domain.Models;
 
 public record UsersModel
 {

@@ -3,7 +3,7 @@
 namespace Opendentity.Domain.Services;
 
 public class EmailTemplateCache: IEmailTemplateCache
-{ 
+{
     public Task<EmailTemplate?> TryGetAsync(EmailTemplateType type, CancellationToken cancellationToken)
     {
         return Task.FromResult<EmailTemplate?>(null);

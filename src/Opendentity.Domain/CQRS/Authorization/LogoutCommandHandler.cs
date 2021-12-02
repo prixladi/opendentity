@@ -22,7 +22,7 @@ public class LogoutCommandHandler: IRequestHandler<LogoutCommand>
 
     public async Task<Unit> Handle(LogoutCommand request, CancellationToken cancellationToken)
     {
-        var userId = httpContextAccessor.HttpContext!.User.FindFirst(Claims.Subject)?.Value;
+        string? userId = httpContextAccessor.HttpContext!.User.FindFirst(Claims.Subject)?.Value;
         if (userId is null)
             throw new BadRequestException("Unable to logout user that is not logged in.");
 

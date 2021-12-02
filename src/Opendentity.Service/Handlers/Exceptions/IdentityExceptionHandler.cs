@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Opendentity.OpenId.Extensions;
 using Shamyr.AspNetCore.Handlers.Exceptions;
 using Shamyr.AspNetCore.HttpErrors;
-using Opendentity.OpenId.Extensions;
 
 namespace Opendentity.Service.Handlers.Exceptions;
 

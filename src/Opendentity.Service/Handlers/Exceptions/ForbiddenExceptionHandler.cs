@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shamyr.AspNetCore.Handlers.Exceptions;
 using Opendentity.OpenId.Exceptions;
+using Shamyr.AspNetCore.Handlers.Exceptions;
 
 namespace Opendentity.Service.Handlers.Exceptions;
 

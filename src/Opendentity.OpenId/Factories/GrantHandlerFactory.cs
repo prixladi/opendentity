@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Opendentity.OpenId.Handlers;
 using OpenIddict.Abstractions;
 using Shamyr.Extensions.Factories;
-using Opendentity.OpenId.Handlers;
 
 namespace Opendentity.OpenId.Factories;
 

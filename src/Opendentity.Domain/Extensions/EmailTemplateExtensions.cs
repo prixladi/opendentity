@@ -1,5 +1,4 @@
-﻿using System;
-using Opendentity.Database.Entities;
+﻿using Opendentity.Database.Entities;
 using Opendentity.Emails;
 
 namespace Opendentity.Domain.Extensions;
@@ -11,7 +10,7 @@ public static class EmailTemplateExtensions
         if (template.Type != EmailTemplateType.PasswordResetEmail)
             throw new InvalidOperationException($"Template of type '{template.Type}' cannot be transformed to email of type {EmailTemplateType.PasswordResetEmail}.");
 
-        var content = template.ContentTemplate
+        string? content = template.ContentTemplate
             .Replace(EmailConstants.ReplacementMarks.PasswordReset._PasswordTokenMark, token)
             .Replace(EmailConstants.ReplacementMarks.PasswordReset._EmailMark, email)
             .Replace(EmailConstants.ReplacementMarks.PasswordReset._PortalUrlMark, portalUrl);
@@ -28,7 +27,7 @@ public static class EmailTemplateExtensions
         if (template.Type != EmailTemplateType.ConfirmationEmail)
             throw new InvalidOperationException($"Template of type '{template.Type}' cannot be transformed to email of type {EmailTemplateType.ConfirmationEmail}.");
 
-        var content = template.ContentTemplate
+        string? content = template.ContentTemplate
             .Replace(EmailConstants.ReplacementMarks.Confirmation._VerifyTokenMark, token)
             .Replace(EmailConstants.ReplacementMarks.Confirmation._EmailMark, email)
             .Replace(EmailConstants.ReplacementMarks.Confirmation._PortalUrlMark, portalUrl);

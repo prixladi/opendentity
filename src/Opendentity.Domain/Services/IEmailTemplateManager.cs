@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Opendentity.Database.Entities;
+﻿using Opendentity.Database.Entities;
 
 namespace Opendentity.Domain.Services;
 

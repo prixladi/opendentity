@@ -24,7 +24,7 @@ public class GetUsersQueryHandler: IRequestHandler<GetUsersQuery, UsersModel>
             .Where(e => EF.Functions.ToTsVector("english", e.UserName + " " + e.Email + " " + e.FirstName + " " + e.LastName)
                 .Matches(request.Model.Search));
 
-        var count = await query.CountAsync(cancellationToken);
+        int count = await query.CountAsync(cancellationToken);
 
         var data = await query
             .Skip(request.Model.Offset)

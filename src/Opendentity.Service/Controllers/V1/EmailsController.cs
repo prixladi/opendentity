@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Shamyr.AspNetCore.HttpErrors;
 using Opendentity.Domain.CQRS;
 using Opendentity.Domain.Models;
+using Shamyr.AspNetCore.HttpErrors;
 
 namespace Opendentity.Service.Controllers.V1;
 

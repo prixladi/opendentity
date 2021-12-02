@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Opendentity.Database;
 using Opendentity.Database.Entities;
 using Shamyr.Threading.Async;

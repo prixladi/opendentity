@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using OpenIddict.Abstractions;
-using OpenIddict.Server.AspNetCore;
 using Opendentity.Database.Entities;
 using Opendentity.OpenId.Exceptions;
 using Opendentity.OpenId.Extensions;
+using OpenIddict.Abstractions;
+using OpenIddict.Server.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Opendentity.OpenId.Handlers;

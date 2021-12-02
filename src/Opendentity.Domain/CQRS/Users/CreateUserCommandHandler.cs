@@ -51,7 +51,7 @@ public class CreateUserCommandHandler: IRequestHandler<CreateUserCommand, Create
         if (!result.Succeeded)
             throw new IdentityException(result);
 
-        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        string? token = await userManager.GenerateEmailConfirmationTokenAsync(user);
         await SendConfirmationEmailAsync(user.Email, token, cancellationToken);
 
         return new CreatedModel { Id = user.Id };

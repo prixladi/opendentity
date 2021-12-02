@@ -1,14 +1,13 @@
 ﻿using hamyr.Opendentity.OpenId.HostedServices;
 using Microsoft.AspNetCore.Identity;
-using OpenIddict.Validation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
 using Opendentity.Database;
 using Opendentity.Database.Entities;
-using Opendentity.OpenId;
 using Opendentity.OpenId.Factories;
 using Opendentity.OpenId.Handlers;
 using Opendentity.OpenId.Services;
+using OpenIddict.Validation.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Opendentity.OpenId.DependencyInjection;
 

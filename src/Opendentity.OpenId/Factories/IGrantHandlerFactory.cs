@@ -1,5 +1,5 @@
-﻿using OpenIddict.Abstractions;
-using Opendentity.OpenId.Handlers;
+﻿using Opendentity.OpenId.Handlers;
+using OpenIddict.Abstractions;
 
 namespace Opendentity.OpenId.Factories;
 

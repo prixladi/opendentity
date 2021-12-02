@@ -19,7 +19,7 @@ public class GetUserCountQueryHandler: IRequestHandler<GetUserCountQuery, CountM
 
     public async Task<CountModel> Handle(GetUserCountQuery request, CancellationToken cancellationToken)
     {
-        var count = await manager.Users.CountAsync(cancellationToken);
+        int count = await manager.Users.CountAsync(cancellationToken);
 
         return new CountModel
         {

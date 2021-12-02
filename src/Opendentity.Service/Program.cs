@@ -10,13 +10,12 @@ using Opendentity.Domain.Settings;
 using Opendentity.Emails;
 using Opendentity.Emails.DependencyInjection;
 using Opendentity.OpenId;
+using Opendentity.OpenId.DependencyInjection;
 using Opendentity.Service.Configs;
 using Opendentity.Service.DependencyInjection;
-using Shamyr.AspNetCore.DependencyInjection;
 using Shamyr.AspNetCore.Configs;
-
+using Shamyr.AspNetCore.DependencyInjection;
 using Constants = Opendentity.Service.Constants;
-using Opendentity.OpenId.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Opendentity.Domain.DatabaseInit;
+﻿namespace Opendentity.Domain.DatabaseInit;
 
 public record RootInitDto
 {

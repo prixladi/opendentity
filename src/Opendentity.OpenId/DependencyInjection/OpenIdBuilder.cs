@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
-using OpenIddict.Server;
-using Opendentity.OpenId;
 using Microsoft.Extensions.DependencyInjection;
+using OpenIddict.Server;
 
 namespace Opendentity.OpenId.DependencyInjection;
 

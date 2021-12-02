@@ -5,9 +5,9 @@ using MediatR;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OpenIddict.Server.AspNetCore;
-using Opendentity.OpenId;
 using Opendentity.Domain.CQRS;
+using Opendentity.OpenId;
+using OpenIddict.Server.AspNetCore;
 
 namespace Opendentity.Service.Controllers;
 
