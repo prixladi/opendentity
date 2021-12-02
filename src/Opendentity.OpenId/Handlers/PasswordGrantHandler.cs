@@ -18,12 +18,12 @@ public class PasswordGrantHandler: IGrantHandler
 {
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
-    private readonly IOptions<OpenIdSettings> options;
+    private readonly IOptions<IdentityOptions> options;
 
     public PasswordGrantHandler(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
-        IOptions<OpenIdSettings> options)
+        IOptions<IdentityOptions> options)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
@@ -41,7 +41,7 @@ public class PasswordGrantHandler: IGrantHandler
         if (user == null || user.Disabled)
             throw Forbidden();
 
-        if (options.Value.RequireConfirmedAccount && !user.EmailConfirmed)
+        if (options.Value.SignIn.RequireConfirmedAccount && !user.EmailConfirmed)
             throw new EmailNotVerifiedException(user.Email);
 
         var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);

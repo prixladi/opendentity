@@ -17,7 +17,8 @@ public static class ApplicationUserExtensions
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            ImageUrl = user.ImageUrl
+            ImageUrl = user.ImageUrl,
+            EmailConfirmed = user.EmailConfirmed,
         };
     }
 

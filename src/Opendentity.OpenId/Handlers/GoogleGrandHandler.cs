@@ -51,6 +51,7 @@ public class GoogleGrandHandler: IGrantHandler
         if (user is null)
         {
             user = payload.ToUser();
+            user.EmailConfirmed = true;
             var result = await userManager.CreateAsync(user);
             if (!result.Succeeded)
                 throw new IdentityException(result);

@@ -10,7 +10,7 @@ public static class Extensions
     public static ApplicationUser ToApplicationUser(this UserInitDto dto)
     {
         if (dto is null)
-            throw new System.ArgumentNullException(nameof(dto));
+            throw new ArgumentNullException(nameof(dto));
 
         return new ApplicationUser(dto.UserName)
         {
@@ -26,23 +26,23 @@ public static class Extensions
     public static OpenIddictApplicationDescriptor ToDescriptor(this ApplicationInitDto dtos)
     {
         if (dtos is null)
-            throw new System.ArgumentNullException(nameof(dtos));
+            throw new ArgumentNullException(nameof(dtos));
 
         return new OpenIddictApplicationDescriptor
         {
             ClientId = dtos.ClientId,
             Permissions =
-                {
-                    Permissions.Endpoints.Token,
-                    Permissions.GrantTypes.RefreshToken,
-                    Permissions.GrantTypes.Password,
-                    CustomGrants._GooglePermission,
-                    Permissions.Scopes.Address,
-                    Permissions.Scopes.Email,
-                    Permissions.Scopes.Phone,
-                    Permissions.Scopes.Profile,
-                    Permissions.Scopes.Roles
-                }
+            {
+                Permissions.Endpoints.Token,
+                Permissions.GrantTypes.RefreshToken,
+                Permissions.GrantTypes.Password,
+                CustomGrants._GooglePermission,
+                Permissions.Scopes.Address,
+                Permissions.Scopes.Email,
+                Permissions.Scopes.Phone,
+                Permissions.Scopes.Profile,
+                Permissions.Scopes.Roles
+            }
         };
     }
 

@@ -3,22 +3,26 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Opendentity.Database;
+
+#nullable disable
 
 namespace Opendentity.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210619190600_InitialCreate")]
+    [Migration("20211202170529_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "6.0.0-preview.5.21301.9")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -26,6 +30,8 @@ namespace Opendentity.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text")
@@ -46,7 +52,7 @@ namespace Opendentity.Database.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_asp_net_role_claims_role_id");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -55,6 +61,8 @@ namespace Opendentity.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("text")
@@ -75,7 +83,7 @@ namespace Opendentity.Database.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_asp_net_user_claims_user_id");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -103,7 +111,7 @@ namespace Opendentity.Database.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_asp_net_user_logins_user_id");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -122,7 +130,7 @@ namespace Opendentity.Database.Migrations
                     b.HasIndex("RoleId")
                         .HasDatabaseName("ix_asp_net_user_roles_role_id");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -146,7 +154,7 @@ namespace Opendentity.Database.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name")
                         .HasName("pk_asp_net_user_tokens");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.Application", b =>
@@ -216,7 +224,7 @@ namespace Opendentity.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_open_iddict_applications_client_id");
 
-                    b.ToTable("OpenIddictApplications");
+                    b.ToTable("OpenIddictApplications", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.ApplicationRole", b =>
@@ -247,7 +255,7 @@ namespace Opendentity.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.ApplicationUser", b =>
@@ -348,7 +356,7 @@ namespace Opendentity.Database.Migrations
                         .HasDatabaseName("ix_asp_net_users_user_name_email_first_name_last_name")
                         .HasAnnotation("Npgsql:TsVectorConfig", "english");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.Authorization", b =>
@@ -369,7 +377,7 @@ namespace Opendentity.Database.Migrations
                         .HasColumnName("concurrency_token");
 
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Properties")
@@ -401,7 +409,7 @@ namespace Opendentity.Database.Migrations
                     b.HasIndex("ApplicationId", "Status", "Subject", "Type")
                         .HasDatabaseName("ix_open_iddict_authorizations_application_id_status_subject_type");
 
-                    b.ToTable("OpenIddictAuthorizations");
+                    b.ToTable("OpenIddictAuthorizations", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.DbSettings", b =>
@@ -417,7 +425,7 @@ namespace Opendentity.Database.Migrations
                     b.HasKey("Key")
                         .HasName("pk_db_settings");
 
-                    b.ToTable("db_settings");
+                    b.ToTable("db_settings", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.EmailTemplate", b =>
@@ -451,7 +459,7 @@ namespace Opendentity.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_email_templates_type");
 
-                    b.ToTable("email_templates");
+                    b.ToTable("email_templates", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.Scope", b =>
@@ -503,7 +511,7 @@ namespace Opendentity.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_open_iddict_scopes_name");
 
-                    b.ToTable("OpenIddictScopes");
+                    b.ToTable("OpenIddictScopes", (string)null);
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.Token", b =>
@@ -528,11 +536,11 @@ namespace Opendentity.Database.Migrations
                         .HasColumnName("concurrency_token");
 
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("creation_date");
 
                     b.Property<DateTime?>("ExpirationDate")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("expiration_date");
 
                     b.Property<string>("Payload")
@@ -544,7 +552,7 @@ namespace Opendentity.Database.Migrations
                         .HasColumnName("properties");
 
                     b.Property<DateTime?>("RedemptionDate")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("redemption_date");
 
                     b.Property<string>("ReferenceId")
@@ -580,7 +588,7 @@ namespace Opendentity.Database.Migrations
                     b.HasIndex("ApplicationId", "Status", "Subject", "Type")
                         .HasDatabaseName("ix_open_iddict_tokens_application_id_status_subject_type");
 
-                    b.ToTable("OpenIddictTokens");
+                    b.ToTable("OpenIddictTokens", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -588,9 +596,9 @@ namespace Opendentity.Database.Migrations
                     b.HasOne("Opendentity.Database.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -598,9 +606,9 @@ namespace Opendentity.Database.Migrations
                     b.HasOne("Opendentity.Database.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -608,9 +616,9 @@ namespace Opendentity.Database.Migrations
                     b.HasOne("Opendentity.Database.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -618,16 +626,16 @@ namespace Opendentity.Database.Migrations
                     b.HasOne("Opendentity.Database.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id");
 
                     b.HasOne("Opendentity.Database.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -635,9 +643,9 @@ namespace Opendentity.Database.Migrations
                     b.HasOne("Opendentity.Database.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
                 });
 
             modelBuilder.Entity("Opendentity.Database.Entities.Authorization", b =>

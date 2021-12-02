@@ -5,7 +5,7 @@ using Opendentity.Database.Entities;
 using Opendentity.Domain.Extensions;
 using Opendentity.Domain.Models;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Users;
 
 public record GetUsersQuery(UsersFilterModel Model): IRequest<UsersModel>;
 

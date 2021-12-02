@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Opendentity.Domain.CQRS;
+using Opendentity.Domain.CQRS.EmailTemplates;
 using Opendentity.Domain.Models;
 using Shamyr.AspNetCore.HttpErrors;
 

@@ -7,9 +7,9 @@ using Opendentity.OpenId.Extensions;
 using Opendentity.OpenId.Services;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Users;
 
-public record UpdateUserDisabledCommand(string Id, UpdateDisabledModel Model): IRequest, ITransactionRequest;
+public record UpdateUserDisabledCommand(string Id, UpdateFlagModel Model): IRequest, ITransactionRequest;
 
 public class UpdateUserDisabledCommandHandler: IRequestHandler<UpdateUserDisabledCommand>
 {
@@ -28,10 +28,10 @@ public class UpdateUserDisabledCommandHandler: IRequestHandler<UpdateUserDisable
         if (user == null)
             throw new NotFoundException($"User with ID '{request.Id}' not found.");
 
-        if (user.Disabled == request.Model.Disabled)
+        if (user.Disabled == request.Model.Value)
             return Unit.Value;
 
-        user.Disabled = request.Model.Disabled;
+        user.Disabled = request.Model.Value;
         if (user.Disabled)
             await subjectTokenRevokationService.RevokeAllAsync(user.Id, cancellationToken);
 

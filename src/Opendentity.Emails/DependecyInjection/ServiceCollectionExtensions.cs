@@ -3,16 +3,23 @@ using System.Net;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Opendentity.Emails.Clients;
 using Polly;
 
-namespace Opendentity.Emails.DependencyInjection;
+namespace Opendentity.Emails.DependecyInjection;
 
 public static partial class ServiceCollectionExtensions
 {
     public static EmailClientBuilder AddEmailClient(this IServiceCollection services)
     {
+        services.AddTransient<IEmailClient, ApiEmailClient>();
         services.AddHttpClient<IEmailClient, ApiEmailClient>()
             .AddPolicyHandler(GetRetryPolicy);
+
+        services.AddTransient<IEmailClient, SmtpEmailClient>();
+
+        services.AddTransient<IEmailClientFactory, EmailClientFactory>();
+        services.AddTransient<IEmailSender, EmailSender>();
 
         return new EmailClientBuilder(services);
     }
@@ -23,7 +30,7 @@ public static partial class ServiceCollectionExtensions
         return Policy<HttpResponseMessage>
                 .Handle<HttpRequestException>()
                 .OrResult(HttpStatusCodePredicate)
-                .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)));
+                .WaitAndRetryAsync(2, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)));
     }
 
     private static bool HttpStatusCodePredicate(HttpResponseMessage response)

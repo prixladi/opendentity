@@ -7,7 +7,7 @@ using Opendentity.Domain.RequestPipeline;
 using Opendentity.OpenId.Extensions;
 using Opendentity.OpenId.Services;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Emails;
 
 public record PasswordResetCommand(string Email, PasswordResetModel Model): IRequest, ITransactionRequest;
 

@@ -1,4 +1,4 @@
-﻿namespace Opendentity.Domain.Models;
+﻿namespace Opendentity.Domain.CQRS.Users;
 
 public record UpdateUserModel
 {

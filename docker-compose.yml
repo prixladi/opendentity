@@ -10,6 +10,9 @@ services:
   #  build:
   #    context: .
   #    dockerfile: src/Opendentity.Service/Dockerfile
+  #     - ./storage/data-protection:/root/.aspnet/DataProtection-Keys
+  #     - ./storage/cryptography:/root/.dotnet/corefx/cryptography
+
 
   postgres:
     image: postgres:13.2-alpine

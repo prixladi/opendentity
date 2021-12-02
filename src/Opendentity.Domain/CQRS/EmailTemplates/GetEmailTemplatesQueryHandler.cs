@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Opendentity.Database;
 using Opendentity.Domain.Models;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.EmailTemplates;
 
 public record GetEmailTemplatesQuery: IRequest<ICollection<EmailTemplatePreviewModel>>;
 

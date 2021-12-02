@@ -8,4 +8,5 @@ public class UserModel
     public string? FirstName { get; init; }
     public string? LastName { get; init; } = default!;
     public string? ImageUrl { get; init; } = default!;
+    public bool EmailConfirmed { get; init; }
 }

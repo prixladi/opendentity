@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Opendentity.Database.Entities;
+using OpenIddict.Abstractions;
 using OpenIddict.Core;
 using Shamyr.Linq.Async;
 
@@ -19,7 +20,11 @@ public class SubjectTokenRevokationService: ISubjectTokenRevokationService
     public async Task RevokeAllAsync(string subId, CancellationToken cancellationToken)
     {
         var data = await tokenManager
-            .ListAsync(q => q.Where(e => e.Subject == subId && e.Status != "revoked"), cancellationToken)
+            .ListAsync(q => q.Where(
+                e => e.Subject == subId &&
+                e.Status != OpenIddictConstants.Statuses.Revoked &&
+                e.Status != OpenIddictConstants.Statuses.Rejected &&
+                e.Status != OpenIddictConstants.Statuses.Inactive), cancellationToken)
             .ToListAsync(cancellationToken);
 
         foreach (var token in data)

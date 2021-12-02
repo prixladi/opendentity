@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Opendentity.Database.Entities;
 using OpenIddict.Core;
 
-namespace hamyr.Opendentity.OpenId.HostedServices;
+namespace Opendentity.OpenId.HostedServices;
 
 using Manager = OpenIddictTokenManager<Token>;
 

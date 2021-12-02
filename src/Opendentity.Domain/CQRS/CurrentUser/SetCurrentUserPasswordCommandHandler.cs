@@ -8,7 +8,7 @@ using Opendentity.OpenId.Extensions;
 using Opendentity.OpenId.Services;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.CurrentUser;
 
 public record SetCurrentUserPasswordCommand(SetPasswordModel Model): IRequest, ITransactionRequest;
 

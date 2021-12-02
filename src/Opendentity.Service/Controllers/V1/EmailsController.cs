@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Opendentity.Domain.CQRS;
+using Opendentity.Domain.CQRS.Emails;
 using Opendentity.Domain.Models;
 using Shamyr.AspNetCore.HttpErrors;
 

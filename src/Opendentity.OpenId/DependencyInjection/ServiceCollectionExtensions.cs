@@ -1,10 +1,10 @@
-﻿using hamyr.Opendentity.OpenId.HostedServices;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Opendentity.Database;
 using Opendentity.Database.Entities;
 using Opendentity.OpenId.Factories;
 using Opendentity.OpenId.Handlers;
+using Opendentity.OpenId.HostedServices;
 using Opendentity.OpenId.Services;
 using OpenIddict.Validation.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -15,7 +15,6 @@ public static partial class ServiceCollectionExtensions
 {
     public static OpenIdBuilder AddOpenId(this IServiceCollection services)
     {
-        services.AddTransient<IUserValidationService, UserValidationService>();
         services.AddTransient<ISubjectTokenRevokationService, SubjectTokenRevokationService>();
 
         services.AddHostedService<TokenPruningService>();

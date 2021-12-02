@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Opendentity.Domain.CQRS;
+using Opendentity.Domain.CQRS.Users;
 using Opendentity.Domain.Models;
 using Shamyr.AspNetCore.HttpErrors;
 
@@ -111,7 +112,7 @@ public class UsersController: ControllerBase
     /// <param name="model"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    /// <response code="204">Returns user with provided id</response>
+    /// <response code="204">Disabled changed</response>
     /// <response code="401">User is unauthorized</response>
     /// <response code="403">User needs to be admin to perform this action</response>
     /// <response code="404">User with provided id not found</response>
@@ -121,9 +122,32 @@ public class UsersController: ControllerBase
     [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status404NotFound)]
-    public async Task<NoContentResult> UpdateDisabledAsync(string id, UpdateDisabledModel model, CancellationToken cancellationToken)
+    public async Task<NoContentResult> UpdateDisabledAsync(string id, UpdateFlagModel model, CancellationToken cancellationToken)
     {
         await sender.Send(new UpdateUserDisabledCommand(id, model), cancellationToken);
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Changes user's email confirmed status
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="model"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <response code="204">Email confirmed changed</response>
+    /// <response code="401">User is unauthorized</response>
+    /// <response code="403">User needs to be admin to perform this action</response>
+    /// <response code="404">User with provided id not found</response>
+    [HttpPut("{id}/emailConfirmed")]
+    [Authorize(Roles = Constants.Auth._AdminRole)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(HttpErrorResponseModel), StatusCodes.Status404NotFound)]
+    public async Task<NoContentResult> UpdateEmailConfirmedAsync(string id, UpdateFlagModel model, CancellationToken cancellationToken)
+    {
+        await sender.Send(new UpdateUserEmailConfirmedCommand(id, model), cancellationToken);
         return NoContent();
     }
 }

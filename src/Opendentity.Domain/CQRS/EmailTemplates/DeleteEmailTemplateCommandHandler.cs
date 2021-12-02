@@ -2,7 +2,7 @@
 using Opendentity.Domain.Services;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.EmailTemplates;
 
 public record DeleteEmailTemplateCommand(string Key): IRequest;
 

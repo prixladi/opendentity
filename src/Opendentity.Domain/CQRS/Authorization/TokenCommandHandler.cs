@@ -3,7 +3,7 @@ using MediatR;
 using Opendentity.OpenId.Factories;
 using OpenIddict.Abstractions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Authorization;
 
 public record TokenCommand(OpenIddictRequest OpenIddictRequest): IRequest<ClaimsPrincipal>;
 

@@ -6,7 +6,7 @@ using Opendentity.Domain.Models;
 using Opendentity.Domain.Services;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.EmailTemplates;
 
 public record CreateEmailTemplateCommand(CreateEmailTemplateModel Model): IRequest<CreatedModel>;
 

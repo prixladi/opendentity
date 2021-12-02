@@ -6,7 +6,7 @@ using Opendentity.Domain.RequestPipeline;
 using Opendentity.Domain.Services;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.EmailTemplates;
 
 public record UpdateEmailTemplateCommand(string Id, UpdateEmailTemplateModel Model): ITransactionRequest, IRequest;
 
@@ -30,9 +30,7 @@ public class UpdateEmailTemplateCommandHandler: IRequestHandler<UpdateEmailTempl
         var oldType = emailTemplate.Type;
 
         if (request.Model.Type is not null && await databaseContext.EmailTemplates.AnyAsync(e => e.Type == request.Model.Type, cancellationToken))
-        {
             throw new ConflictException($"Email template with ID '{request.Model.Type}' already exist.");
-        }
 
         emailTemplate.Type = request.Model.Type;
         emailTemplate.Subject = request.Model.Subject;

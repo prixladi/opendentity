@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Opendentity.Emails.DependencyInjection;
+namespace Opendentity.Emails.DependecyInjection;
 
 public class EmailClientBuilder
 {

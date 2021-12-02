@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Options;
-using Opendentity.Domain.Models;
+using Opendentity.Domain.CQRS.Users;
 using Opendentity.Domain.Settings;
 
 namespace Opendentity.Domain.Validation.Models;

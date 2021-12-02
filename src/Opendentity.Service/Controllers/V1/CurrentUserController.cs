@@ -4,7 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Opendentity.Domain.CQRS;
+using Opendentity.Domain.CQRS.CurrentUser;
+using Opendentity.Domain.CQRS.Users;
 using Opendentity.Domain.Models;
 using Shamyr.AspNetCore.HttpErrors;
 

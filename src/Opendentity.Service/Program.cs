@@ -9,7 +9,7 @@ using Opendentity.Domain;
 using Opendentity.Domain.DatabaseInit;
 using Opendentity.Domain.Settings;
 using Opendentity.Emails;
-using Opendentity.Emails.DependencyInjection;
+using Opendentity.Emails.DependecyInjection;
 using Opendentity.OpenId;
 using Opendentity.OpenId.DependencyInjection;
 using Opendentity.Service;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Opendentity.Database.Entities;
 using Opendentity.Domain.Models;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Users;
 
 public record GetUserCountQuery: IRequest<CountModel>;
 

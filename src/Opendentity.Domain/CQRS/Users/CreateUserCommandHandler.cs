@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Opendentity.Database.Entities;
@@ -13,7 +12,7 @@ using Opendentity.OpenId.Extensions;
 using Opendentity.OpenId.Services;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Users;
 
 public record CreateUserCommand(CreateUserModel Model): IRequest<CreatedModel>;
 
@@ -21,25 +20,22 @@ public class CreateUserCommandHandler: IRequestHandler<CreateUserCommand, Create
 {
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IEmailTemplateManager emailTemplateManager;
-    private readonly IOptions<OpenIdSettings> options;
+    private readonly IOptions<IdentityOptions> options;
     private readonly IOptions<UISettings> uiOptions;
-    private readonly IEmailClient emailClient;
-    private readonly IUserValidationService userValidationService;
+    private readonly IEmailSender emailSender;
 
     public CreateUserCommandHandler(
         UserManager<ApplicationUser> userManager,
         IEmailTemplateManager emailTemplateManager,
-        IOptions<OpenIdSettings> options,
+        IOptions<IdentityOptions> options,
         IOptions<UISettings> uiOptions,
-        IEmailClient emailClient,
-        IUserValidationService userValidationService)
+        IEmailSender emailSender)
     {
         this.userManager = userManager;
         this.emailTemplateManager = emailTemplateManager;
         this.options = options;
         this.uiOptions = uiOptions;
-        this.emailClient = emailClient;
-        this.userValidationService = userValidationService;
+        this.emailSender = emailSender;
     }
 
     public async Task<CreatedModel> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -59,13 +55,17 @@ public class CreateUserCommandHandler: IRequestHandler<CreateUserCommand, Create
 
     private async Task ValidateUserOrThrowAsync(CreateUserModel model)
     {
-        userValidationService.ValidateUsernameOrThrow(model.UserName);
+        if (await userManager.FindByNameAsync(model.UserName) is not null)
+            throw new ConflictException($"User with username '{model.UserName}' already exist.")
+            {
+                ErrorCode = DomainConstants.ErrorCodes._UsernameExists
+            };
 
-        if ((await userManager.FindByNameAsync(model.UserName)) is not null)
-            throw new ConflictException($"User with username '{model.UserName}' already exist.");
-
-        if ((await userManager.FindByEmailAsync(model.Email)) is not null)
-            throw new ConflictException($"User with email '{model.Email}' already exist.");
+        if (await userManager.FindByEmailAsync(model.Email) is not null)
+            throw new ConflictException($"User with email '{model.Email}' already exist.")
+            {
+                ErrorCode = DomainConstants.ErrorCodes._EmailExists
+            };
     }
 
     private ApplicationUser CreateUser(CreateUserModel model)
@@ -82,13 +82,14 @@ public class CreateUserCommandHandler: IRequestHandler<CreateUserCommand, Create
     private async Task SendConfirmationEmailAsync(string email, string token, CancellationToken cancellationToken)
     {
         var template = await emailTemplateManager.TryGetTemplateAsync(EmailTemplateType.ConfirmationEmail, cancellationToken);
-        if (options.Value.RequireConfirmedAccount && template is null)
+        if (options.Value.SignIn.RequireConfirmedAccount && template is null)
+        {
             throw new InvalidOperationException("Server doesn't have confirmation email set and confirmed account is required for user to log in.");
+        }
         else if (template is not null)
         {
-            var recipient = new MailAddress(email);
-            var dto = template.ToConfirmationEmail(token: token, email: email, portalUrl: uiOptions.Value.ToString());
-            await emailClient.SendEmailAsync(recipient, dto, cancellationToken);
+            var dto = template.ToConfirmationEmail(token: token, email: email, portalUrl: uiOptions.Value.PortalUrl);
+            await emailSender.SendEmailAsync(email, dto, cancellationToken);
         }
     }
 }

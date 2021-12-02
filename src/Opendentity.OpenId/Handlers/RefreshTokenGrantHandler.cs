@@ -20,13 +20,13 @@ public class RefreshTokenGrantHandler: IGrantHandler
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IHttpContextAccessor httpContextAccessor;
-    private readonly IOptions<OpenIdSettings> options;
+    private readonly IOptions<IdentityOptions> options;
 
     public RefreshTokenGrantHandler(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IHttpContextAccessor httpContextAccessor,
-        IOptions<OpenIdSettings> options)
+        IOptions<IdentityOptions> options)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
@@ -49,7 +49,7 @@ public class RefreshTokenGrantHandler: IGrantHandler
         if (user == null || user.Disabled)
             throw Forbidden("The refresh token is no longer valid.");
 
-        if (options.Value.RequireConfirmedAccount && !user.EmailConfirmed)
+        if (options.Value.SignIn.RequireConfirmedAccount && !user.EmailConfirmed)
             throw new EmailNotVerifiedException(user.Email);
 
         if (!await signInManager.CanSignInAsync(user))

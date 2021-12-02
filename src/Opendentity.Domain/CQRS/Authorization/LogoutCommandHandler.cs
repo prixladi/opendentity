@@ -5,7 +5,7 @@ using Opendentity.OpenId.Services;
 using Shamyr.Exceptions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Authorization;
 
 public record LogoutCommand: IRequest, ITransactionRequest;
 

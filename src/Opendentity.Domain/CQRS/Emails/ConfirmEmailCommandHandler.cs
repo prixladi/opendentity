@@ -5,7 +5,7 @@ using Opendentity.Domain.CQRS.Base;
 using Opendentity.Domain.Models;
 using Opendentity.OpenId.Extensions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Emails;
 
 public record ConfirmEmailCommand(string Email, TokenModel Model): IRequest;
 

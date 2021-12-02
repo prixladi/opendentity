@@ -5,7 +5,7 @@ using Opendentity.Database.Entities;
 using Opendentity.Domain.Extensions;
 using Opendentity.Domain.Models;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.CurrentUser;
 
 public record GetCurrentUserQuery: IRequest<UserModel>;
 

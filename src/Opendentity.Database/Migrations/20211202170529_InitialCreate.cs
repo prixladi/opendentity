@@ -1,5 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
 
 namespace Opendentity.Database.Migrations;
 
@@ -123,7 +126,8 @@ public partial class InitialCreate: Migration
             name: "AspNetRoleClaims",
             columns: table => new
             {
-                id = table.Column<int>(type: "integer", nullable: false),
+                id = table.Column<int>(type: "integer", nullable: false)
+                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 role_id = table.Column<string>(type: "text", nullable: false),
                 claim_type = table.Column<string>(type: "text", nullable: true),
                 claim_value = table.Column<string>(type: "text", nullable: true)
@@ -143,7 +147,8 @@ public partial class InitialCreate: Migration
             name: "AspNetUserClaims",
             columns: table => new
             {
-                id = table.Column<int>(type: "integer", nullable: false),
+                id = table.Column<int>(type: "integer", nullable: false)
+                    .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 user_id = table.Column<string>(type: "text", nullable: false),
                 claim_type = table.Column<string>(type: "text", nullable: true),
                 claim_value = table.Column<string>(type: "text", nullable: true)
@@ -230,7 +235,7 @@ public partial class InitialCreate: Migration
                 id = table.Column<string>(type: "text", nullable: false),
                 application_id = table.Column<string>(type: "text", nullable: true),
                 concurrency_token = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                creation_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                 properties = table.Column<string>(type: "text", nullable: true),
                 scopes = table.Column<string>(type: "text", nullable: true),
                 status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
@@ -244,8 +249,7 @@ public partial class InitialCreate: Migration
                     name: "fk_open_iddict_authorizations_open_iddict_applications_application",
                     column: x => x.application_id,
                     principalTable: "OpenIddictApplications",
-                    principalColumn: "id",
-                    onDelete: ReferentialAction.Restrict);
+                    principalColumn: "id");
             });
 
         migrationBuilder.CreateTable(
@@ -256,11 +260,11 @@ public partial class InitialCreate: Migration
                 application_id = table.Column<string>(type: "text", nullable: true),
                 authorization_id = table.Column<string>(type: "text", nullable: true),
                 concurrency_token = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                creation_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                expiration_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                expiration_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                 payload = table.Column<string>(type: "text", nullable: true),
                 properties = table.Column<string>(type: "text", nullable: true),
-                redemption_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                redemption_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                 reference_id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 status = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                 subject = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: true),
@@ -273,14 +277,12 @@ public partial class InitialCreate: Migration
                     name: "fk_open_iddict_tokens_open_iddict_applications_application_id",
                     column: x => x.application_id,
                     principalTable: "OpenIddictApplications",
-                    principalColumn: "id",
-                    onDelete: ReferentialAction.Restrict);
+                    principalColumn: "id");
                 table.ForeignKey(
                     name: "fk_open_iddict_tokens_open_iddict_authorizations_authorization_id",
                     column: x => x.authorization_id,
                     principalTable: "OpenIddictAuthorizations",
-                    principalColumn: "id",
-                    onDelete: ReferentialAction.Restrict);
+                    principalColumn: "id");
             });
 
         migrationBuilder.CreateIndex(
@@ -318,7 +320,8 @@ public partial class InitialCreate: Migration
         migrationBuilder.CreateIndex(
             name: "ix_asp_net_users_user_name_email_first_name_last_name",
             table: "AspNetUsers",
-            columns: new[] { "user_name", "email", "first_name", "last_name" });
+            columns: new[] { "user_name", "email", "first_name", "last_name" })
+            .Annotation("Npgsql:TsVectorConfig", "english");
 
         migrationBuilder.CreateIndex(
             name: "UserNameIndex",

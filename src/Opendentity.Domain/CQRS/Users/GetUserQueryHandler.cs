@@ -5,7 +5,7 @@ using Opendentity.Domain.Extensions;
 using Opendentity.Domain.Models;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Users;
 
 public record GetUserQuery(string Id): IRequest<UserModel>;
 

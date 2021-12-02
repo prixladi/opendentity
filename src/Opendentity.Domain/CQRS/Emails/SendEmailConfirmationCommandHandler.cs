@@ -10,25 +10,25 @@ using Opendentity.Domain.Settings;
 using Opendentity.Emails;
 using Shamyr.Exceptions;
 
-namespace Opendentity.Domain.CQRS;
+namespace Opendentity.Domain.CQRS.Emails;
 
 public record SendEmailConfirmationCommand(string Email): IRequest;
 
 public class SendEmailConfirmationCommandHandler: EmailRequestHandlerBase, IRequestHandler<SendEmailConfirmationCommand>
 {
     private readonly IEmailTemplateManager emailTemplateManager;
-    private readonly IEmailClient emailClient;
+    private readonly IEmailSender emailSender;
     private readonly IOptions<UISettings> options;
 
     public SendEmailConfirmationCommandHandler(
         IEmailTemplateManager emailTemplateManager,
         UserManager<ApplicationUser> userManager,
-        IEmailClient emailClient,
+        IEmailSender emailSender,
         IOptions<UISettings> options)
         : base(userManager)
     {
         this.emailTemplateManager = emailTemplateManager;
-        this.emailClient = emailClient;
+        this.emailSender = emailSender;
         this.options = options;
     }
 
@@ -44,9 +44,8 @@ public class SendEmailConfirmationCommandHandler: EmailRequestHandlerBase, IRequ
 
         string? token = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
-        var recipient = new MailAddress(user.Email);
-        var dto = template.ToConfirmationEmail(token: token, email: user.Email, portalUrl: options.Value.PortalUrl.ToString());
-        await emailClient.SendEmailAsync(recipient, dto, cancellationToken);
+        var dto = template.ToConfirmationEmail(token: token, email: user.Email, portalUrl: options.Value.PortalUrl);
+        await emailSender.SendEmailAsync(user.Email, dto, cancellationToken);
 
         return Unit.Value;
     }

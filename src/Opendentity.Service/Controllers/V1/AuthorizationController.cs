@@ -5,11 +5,11 @@ using MediatR;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Opendentity.Domain.CQRS;
+using Opendentity.Domain.CQRS.Authorization;
 using Opendentity.OpenId;
 using OpenIddict.Server.AspNetCore;
 
-namespace Opendentity.Service.Controllers;
+namespace Opendentity.Service.Controllers.V1;
 
 [ApiController]
 [ApiExplorerSettings(IgnoreApi = true)]
@@ -27,9 +27,7 @@ public class AuthorizationController: ControllerBase
     {
         var request = HttpContext.GetOpenIddictServerRequest();
         if (request == null)
-        {
             throw new InvalidOperationException("Unable to retrieve OpenIddictServerRequest from HttpContext.");
-        }
 
         var principal = await sender.Send(new TokenCommand(request), cancellationToken);
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
