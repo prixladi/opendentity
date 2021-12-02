@@ -2,7 +2,7 @@
 
 namespace Opendentity.Emails;
 
-public class EmailClientSettings
+public record EmailClientSettings
 {
     public Uri ServerUrl { get; init; } = default!;
     public string SenderAddress { get; init; } = default!;

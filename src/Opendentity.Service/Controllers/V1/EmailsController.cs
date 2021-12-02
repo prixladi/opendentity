@@ -4,8 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shamyr.AspNetCore.HttpErrors;
-using Opendentity.Service.CQRS.Commands;
-using Opendentity.Service.Models;
+using Opendentity.Domain.CQRS;
+using Opendentity.Domain.Models;
 
 namespace Opendentity.Service.Controllers.V1;
 

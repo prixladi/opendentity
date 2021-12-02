@@ -6,6 +6,6 @@ namespace Opendentity.Emails;
 
 public interface IEmailClient
 {
-    Task SendEmailAsync(MailAddress recipient, string subject, EmailBodyDto body, CancellationToken cancellationToken);
     Task SendEmailAsync(MailAddress recipient, EmailDataDto dto, CancellationToken cancellationToken);
+    Task SendEmailAsync(MailAddress[] recipients, EmailDataDto dto, CancellationToken cancellationToken);
 }

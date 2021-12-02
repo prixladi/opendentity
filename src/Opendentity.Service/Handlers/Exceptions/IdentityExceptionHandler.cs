@@ -17,6 +17,7 @@ public class IdentityExceptionHandler: ExceptionHandlerBase<IdentityException>
             Errors = ex.Result.Errors.Select(x => new ErrorModel
             {
                 Name = x.Code,
+                Code = x.Code,
                 Message = x.Description
             }).ToArray()
         };

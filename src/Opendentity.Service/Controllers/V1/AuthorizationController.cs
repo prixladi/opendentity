@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Server.AspNetCore;
 using Opendentity.OpenId;
-using Opendentity.Service.CQRS.Commands;
+using Opendentity.Domain.CQRS;
 
 namespace Opendentity.Service.Controllers;
 

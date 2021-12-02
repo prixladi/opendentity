@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.AspNetCore", "lib\sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Extensions", "lib\shamyr-core\src\Shamyr.Extensions\Shamyr.Extensions.csproj", "{8B141436-261E-4C2C-82BA-2CA4640650A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opendentity.Domain", "src\Opendentity.Domain\Opendentity.Domain.csproj", "{461B7F71-B3BA-4393-9BD1-8E93765999B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B141436-261E-4C2C-82BA-2CA4640650A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{461B7F71-B3BA-4393-9BD1-8E93765999B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{461B7F71-B3BA-4393-9BD1-8E93765999B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{461B7F71-B3BA-4393-9BD1-8E93765999B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{461B7F71-B3BA-4393-9BD1-8E93765999B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

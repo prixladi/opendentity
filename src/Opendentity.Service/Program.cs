@@ -4,13 +4,19 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Opendentity.Database;
+using Opendentity.Database.DependencyInjection;
+using Opendentity.Domain.DatabaseInit;
+using Opendentity.Domain.Settings;
 using Opendentity.Emails;
+using Opendentity.Emails.DependencyInjection;
 using Opendentity.OpenId;
 using Opendentity.Service.Configs;
-using Opendentity.Service.DatabaseInit;
-using Opendentity.Service.Settings;
+using Opendentity.Service.DependencyInjection;
+using Shamyr.AspNetCore.DependencyInjection;
 using Shamyr.AspNetCore.Configs;
+
 using Constants = Opendentity.Service.Constants;
+using Opendentity.OpenId.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -42,7 +48,6 @@ var configuration = builder.Configuration;
     services.Configure<ValidationSettings>(configuration.GetSection(Constants.SettingSections._Validation));
 
     RateLimitConfig.Setup(services, configuration.GetSection(Constants.SettingSections._RateLimits));
-    DistributedCacheConfig.SetupWithRedis(services, configuration.GetSection(Constants.SettingSections._Redis));
 
     services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
     services.AddFluentValidationRulesToSwagger();

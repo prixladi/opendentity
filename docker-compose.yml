@@ -23,14 +23,6 @@ services:
     volumes:
       - postgresdata:/var/lib/postgresql/data
 
-  redis:
-    image: redis:latest
-    ports:
-      - 6379:6379
-    volumes:
-      - redisdata:/data
-    command: redis-server --appendonly yes --requirepass secret
-
   pgadmin:
     image: dpage/pgadmin4:5.1
     ports:
@@ -42,14 +34,6 @@ services:
     volumes:
       - pgadmindata:/var/lib/pgadmin
 
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    ports:
-      - 8081:8081
-    environment:
-      - REDIS_HOSTS=local:redis:6379:0:secret
-
 volumes:
   postgresdata:
   pgadmindata:
-  redisdata:
