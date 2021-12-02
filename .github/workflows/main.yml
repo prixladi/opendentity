@@ -21,7 +21,7 @@ jobs:
         image: service
         tags: latest
         dockerfiles: |
-          ./src/Shamyr.Opendentity.Service/Dockerfile
+          ./src/Opendentity.Service/Dockerfile
 
     - name: Push To github registry
       id: push-to-github-registry
