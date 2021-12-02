@@ -29,7 +29,7 @@ jobs:
       with:
         image: ${{ steps.build-image.outputs.image }}
         tags: ${{ steps.build-image.outputs.tags }}
-        registry: docker.pkg.github.com/prixladi/opendentity/
+        registry: ghcr.io/prixladi/opendentity/
         username: prixladi
         password: ${{ secrets.GITHUB_TOKEN }}
 
