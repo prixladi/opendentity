@@ -9,7 +9,7 @@ services:
         ASPNETCORE_ENVIRONMENT: "Docker"
     build:
       context: .
-      dockerfile: src/Shamyr.Opendentity.Service/Dockerfile
+      dockerfile: src/Opendentity.Service/Dockerfile
 
   postgres:
     image: postgres:13.2-alpine

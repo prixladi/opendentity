@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31105.61
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.Service", "src\Shamyr.Opendentity.Service\Shamyr.Opendentity.Service.csproj", "{F568FDD1-1322-40A3-80CB-9D6BD14E01F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opendentity.Service", "src\Opendentity.Service\Opendentity.Service.csproj", "{F568FDD1-1322-40A3-80CB-9D6BD14E01F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0360DFD7-E77A-44B4-A503-EC547E31C9AB}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,11 +18,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{7B3DBC8D-530D-4324-9732-506B649A50B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.Database", "src\Shamyr.Opendentity.Database\Shamyr.Opendentity.Database.csproj", "{B1145C61-AEC0-4571-8550-9897D3B6F168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opendentity.Database", "src\Opendentity.Database\Opendentity.Database.csproj", "{B1145C61-AEC0-4571-8550-9897D3B6F168}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.Emails", "src\Shamyr.Opendentity.Emails\Shamyr.Opendentity.Emails.csproj", "{7BB9EB79-DBC8-45D3-921A-E79AAD04E726}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opendentity.Emails", "src\Opendentity.Emails\Opendentity.Emails.csproj", "{7BB9EB79-DBC8-45D3-921A-E79AAD04E726}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr.Opendentity.OpenId", "src\Shamyr.Opendentity.OpenId\Shamyr.Opendentity.OpenId.csproj", "{93AB3112-28EC-4A82-B41D-D90FBCD50C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opendentity.OpenId", "src\Opendentity.OpenId\Opendentity.OpenId.csproj", "{93AB3112-28EC-4A82-B41D-D90FBCD50C82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shamyr", "lib\shamyr-core\src\Shamyr\Shamyr.csproj", "{50A14F23-6631-401D-A16E-AD52FA2C4BF1}"
 EndProject
