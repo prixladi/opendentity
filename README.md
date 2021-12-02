@@ -13,7 +13,7 @@ Json file with init data - [InitData.json](src/Opendentity.Service/InitData.json
 |Class | Desription|
 |:--- |  :---:|
 |[Database](src/Opendentity.Database/DatabaseSettings.cs) | Settings for database connection|
-|[DatabaseInit](src/Opendentity.Service/DatabaseInit/DatabaseInitSettings.cs) | Settings for database init eg. path to json data |
+|[DatabaseInit](src/Opendentity.Domain/DatabaseInit/DatabaseInitSettings.cs) | Settings for database init eg. path to json data |
 |[OpenId](src/Opendentity.OpenId/OpenIdSettings.cs) | Settings for OpenIddict engine|
 |[Identity](src/Opendentity.OpenId/IdentitySettings.cs) | Settings for AspNet identity|
 |[Email](src/Opendentity.Emails/EmailClientSettings.cs) | Settings for email cliemt|
