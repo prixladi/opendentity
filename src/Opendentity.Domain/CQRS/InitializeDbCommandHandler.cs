@@ -55,7 +55,7 @@ public class InitializeDbCommandHandler: IRequestHandler<InitializeDbCommand>
         Set.Add(new DbSettings { Key = DbSettings._InitKey, Value = DateTime.UtcNow.ToString() });
         await databaseContext.SaveChangesAsync(cancellationToken);
 
-        await roleManager.CreateAsync(new ApplicationRole(Constants.Auth._AdminRole));
+        await roleManager.CreateAsync(new ApplicationRole(DomainConstants.Auth._AdminRole));
         var data = await GetInitDataAsync(cancellationToken);
 
         foreach (var user in data.Users)
@@ -67,7 +67,7 @@ public class InitializeDbCommandHandler: IRequestHandler<InitializeDbCommand>
 
             if (user.IsAdmin)
             {
-                var roleResult = await userManager.AddToRoleAsync(appUser, Constants.Auth._AdminRole);
+                var roleResult = await userManager.AddToRoleAsync(appUser, DomainConstants.Auth._AdminRole);
                 if (!roleResult.Succeeded)
                     throw new IdentityException(roleResult);
             }

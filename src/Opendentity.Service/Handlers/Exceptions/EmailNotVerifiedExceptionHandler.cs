@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using Opendentity.OpenId.Exceptions;
 using Shamyr.AspNetCore.Handlers.Exceptions;
 using Shamyr.AspNetCore.HttpErrors;
 
 namespace Opendentity.Service.Handlers.Exceptions;
 
-public class EmailNotVerifiedExceptionHandler: ExceptionHandlerBase<EmailNotVerifiedException>
+public class EmailNotVerifiedExceptionHandler: CodeExceptionHadlerBase<EmailNotVerifiedException>
 {
-    protected override ActionResult DoHandle(EmailNotVerifiedException ex)
+    protected override int StatusCode => Constants.CustomStatusCodes._EmailNotVerified;
+
+    protected override HttpErrorResponseModel CreateModel(EmailNotVerifiedException ex)
     {
-        var model = new HttpErrorResponseModel
+        return new HttpErrorResponseModel
         {
             Message = "Email is not verified",
             Features = new KeyValuePair<string, object>[]
             {
-                    KeyValuePair.Create<string, object>("email", ex.Email)
+                KeyValuePair.Create<string, object>("email", ex.Email)
             }
         };
-
-        return new ObjectResult(model) { StatusCode = Constants.CustomStatusCodes._EmailNotVerified };
     }
 }

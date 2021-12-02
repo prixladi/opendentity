@@ -17,7 +17,7 @@ public static partial class ServiceCollectionExtensions
 
     public static IServiceCollection AddMediatorPipeline(this IServiceCollection services)
     {
-        services.AddMediatR(typeof(Domain.Constants));
+        services.AddMediatR(typeof(Domain.DomainConstants));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
         return services;
@@ -27,7 +27,7 @@ public static partial class ServiceCollectionExtensions
     {
         services.Scan(e =>
         {
-            e.FromAssembliesOf(typeof(Domain.Constants))
+            e.FromAssembliesOf(typeof(Domain.DomainConstants))
              .AddConventionClasses();
         });
 

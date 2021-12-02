@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Opendentity.Domain.Models;
+using Shamyr.AspNetCore;
 
 namespace Opendentity.Service.Configs;
 

@@ -1,15 +1,15 @@
 version: '3.4'
 
 services:
-  service:
-    image: opendentity/service 
-    ports:
-      - 8080:80
-    environment:
-        ASPNETCORE_ENVIRONMENT: "Docker"
-    build:
-      context: .
-      dockerfile: src/Opendentity.Service/Dockerfile
+  #service:
+  #  image: opendentity/service 
+  #  ports:
+  #    - 8080:80
+  #  environment:
+  #      ASPNETCORE_ENVIRONMENT: "Docker"
+  #  build:
+  #    context: .
+  #    dockerfile: src/Opendentity.Service/Dockerfile
 
   postgres:
     image: postgres:13.2-alpine

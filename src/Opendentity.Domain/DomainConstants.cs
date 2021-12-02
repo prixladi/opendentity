@@ -1,6 +1,6 @@
 ﻿namespace Opendentity.Domain;
 
-public static class Constants
+public static class DomainConstants
 {
     public static class Auth
     {

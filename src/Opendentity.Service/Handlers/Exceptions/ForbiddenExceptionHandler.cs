@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Opendentity.OpenId.Exceptions;
 using Shamyr.AspNetCore.Handlers.Exceptions;
 
@@ -6,8 +8,8 @@ namespace Opendentity.Service.Handlers.Exceptions;
 
 public class ForbiddenExceptionHandler: ExceptionHandlerBase<ForbiddenException>
 {
-    protected override ActionResult DoHandle(ForbiddenException ex)
+    protected override async Task DoHandleAsync(HttpContext httpContext, ForbiddenException ex)
     {
-        return new ForbidResult(ex.Scheme, ex.Properties);
+        await httpContext.ForbidAsync(ex.Scheme, ex.Properties);
     }
 }

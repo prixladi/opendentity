@@ -5,65 +5,68 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Opendentity.Database;
 using Opendentity.Database.DependencyInjection;
+using Opendentity.Domain;
 using Opendentity.Domain.DatabaseInit;
 using Opendentity.Domain.Settings;
 using Opendentity.Emails;
 using Opendentity.Emails.DependencyInjection;
 using Opendentity.OpenId;
 using Opendentity.OpenId.DependencyInjection;
+using Opendentity.Service;
 using Opendentity.Service.Configs;
 using Opendentity.Service.DependencyInjection;
 using Shamyr.AspNetCore.Configs;
 using Shamyr.AspNetCore.DependencyInjection;
-using Constants = Opendentity.Service.Constants;
+using Shamyr.AspNetCore.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
-var services = builder.Services;
 var configuration = builder.Configuration;
 {
-    services.AddMediatorPipeline();
-    services.AddServiceAssembly();
+    builder.Services.AddMediatorPipeline();
+    builder.Services.AddServiceAssembly();
 
-    services.AddCors(CorsConfig.SetupAllowAny);
-    services.AddControllers(MvcConfig.Setup)
+    builder.Services.AddCors(CorsConfig.SetupAllowAny);
+    builder.Services.AddControllers(MvcConfig.Setup)
         .AddJsonOptions(MvcConfig.SetupJson);
 
-    services.AddDatabase()
+    builder.Services.AddDatabase()
         .ConfigureSettings<DatabaseSettings>(configuration.GetSection(Constants.SettingSections._Database));
 
-    services.AddDatabaseInit()
+    builder.Services.AddDatabaseInit()
         .ConfigureSettings<DatabaseInitSettings>(configuration.GetSection(Constants.SettingSections._DatabaseInit));
 
-    services.AddOpenId()
+    builder.Services.AddOpenId()
         .ConfigureSettings<OpenIdSettings>(configuration.GetSection(Constants.SettingSections._OpenId));
 
-    services.AddIdentity()
+    builder.Services.AddIdentity()
         .ConfigureSettings<IdentitySettings>(configuration.GetSection(Constants.SettingSections._Identity));
 
-    services.AddEmailClient()
+    builder.Services.AddEmailClient()
         .ConfigureSettings<EmailClientSettings>(configuration.GetSection(Constants.SettingSections._Email));
 
-    services.Configure<UISettings>(configuration.GetSection(Constants.SettingSections._Ui));
-    services.Configure<ValidationSettings>(configuration.GetSection(Constants.SettingSections._Validation));
+    builder.Services.Configure<UISettings>(configuration.GetSection(Constants.SettingSections._Ui));
+    builder.Services.Configure<ValidationSettings>(configuration.GetSection(Constants.SettingSections._Validation));
 
-    RateLimitConfig.Setup(services, configuration.GetSection(Constants.SettingSections._RateLimits));
+    RateLimitConfig.Setup(builder.Services, configuration.GetSection(Constants.SettingSections._RateLimits));
 
-    services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
-    services.AddFluentValidationRulesToSwagger();
+    builder.Services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining(typeof(DomainConstants)));
+    builder.Services.AddFluentValidationRulesToSwagger();
 
-    services.AddLogging(LoggingConfig.Setup);
-    services.AddExceptionHandling(typeof(Program).Assembly);
-    services.AddSwaggerGen(SwaggerConfig.SetupSwaggerGen);
+    builder.Services.AddLogging(LoggingConfig.Setup);
+    builder.Services.AddExceptionHandling(typeof(Program).Assembly);
+    builder.Services.AddSwaggerGen(SwaggerConfig.SetupSwaggerGen);
 }
 
 var app = builder.Build();
 {
     app.UseCors(CorsConfig._AllowAnyCorsPolicy);
 
+    app.UseRouting();
+
+    app.UseExceptionHandling();
+
     app.UseSwagger();
     app.UseSwaggerUI(SwaggerConfig.SetupSwaggerUI);
-
-    app.UseRouting();
 
     app.UseIpRateLimiting();
 
@@ -77,5 +80,3 @@ var app = builder.Build();
 }
 
 app.Run();
-
-

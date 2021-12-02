@@ -12,6 +12,6 @@ public class ApplicationUserEntityConfiguration: IEntityTypeConfiguration<Applic
             .IsUnique();
 
         builder.HasIndex(e => new { e.UserName, e.Email, e.FirstName, e.LastName })
-            .IsTsVectorExpressionIndex(Constants._FullTextLanguage);
+            .IsTsVectorExpressionIndex(DatabaseConstants._FullTextLanguage);
     }
 }

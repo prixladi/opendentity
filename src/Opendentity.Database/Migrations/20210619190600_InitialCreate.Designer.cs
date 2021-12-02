@@ -346,7 +346,7 @@ namespace Opendentity.Database.Migrations
 
                     b.HasIndex("UserName", "Email", "FirstName", "LastName")
                         .HasDatabaseName("ix_asp_net_users_user_name_email_first_name_last_name")
-                        .HasAnnotation("Npgsql:TsVectorConfig", Constants._FullTextLanguage);
+                        .HasAnnotation("Npgsql:TsVectorConfig", "english");
 
                     b.ToTable("AspNetUsers");
                 });

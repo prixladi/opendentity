@@ -1,6 +1,6 @@
 ﻿namespace Opendentity.Database;
 
-public static class Constants
+public static class DatabaseConstants
 {
     public const string _FullTextLanguage = "english";
 }
