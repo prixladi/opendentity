@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "rootDir": "tests",
+      "outDir": "./dist",
+      "esModuleInterop": true,
+      "strict": true,
+      "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true,
+      "noUnusedLocals": true,
+      "skipLibCheck": true
+    },
+    "include": [
+      "tests"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+  }

@@ -1,0 +1,22 @@
+{
+  "name": "opendentity-integration-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "yarn mocha ./dist/index.js",
+    "dev": "tsc && yarn mocha ./dist/index.js",
+    "format": "prettier --write tests/**/*.{js,jsx,ts,tsx}"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.0",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.1.3"
+  }
+}

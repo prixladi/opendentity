@@ -21,7 +21,7 @@ jobs:
         image: service
         tags: latest
         dockerfiles: |
-          ./src/Shamyr.Opendentity.Service/Dockerfile
+          ./src/Opendentity.Service/Dockerfile
 
     - name: Push To github registry
       id: push-to-github-registry
@@ -29,7 +29,7 @@ jobs:
       with:
         image: ${{ steps.build-image.outputs.image }}
         tags: ${{ steps.build-image.outputs.tags }}
-        registry: docker.pkg.github.com/prixladi/opendentity/
+        registry: ghcr.io/prixladi/opendentity/
         username: prixladi
         password: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.55.0" />
+    <PackageReference Include="OpenIddict" Version="3.1.1" />
+    <PackageReference Include="OpenIddict.Server.AspNetCore" Version="3.1.1" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\shamyr-core\src\Shamyr.Extensions\Shamyr.Extensions.csproj" />
+    <ProjectReference Include="..\Opendentity.Database\Opendentity.Database.csproj" />
+  </ItemGroup>
+
+  
+</Project>
