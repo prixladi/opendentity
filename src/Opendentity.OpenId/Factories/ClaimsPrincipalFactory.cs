@@ -25,7 +25,7 @@ public class ClaimsPrincipalFactory: UserClaimsPrincipalFactory<ApplicationUser>
         if (!string.IsNullOrEmpty(user.ImageUrl))
             identity.AddClaim(new Claim(Claims.Picture, user.ImageUrl));
 
-        foreach (string? role in await UserManager.GetRolesAsync(user))
+        foreach (var role in await UserManager.GetRolesAsync(user))
             identity.AddClaim(new Claim(Claims.Role, role));
 
         return identity;

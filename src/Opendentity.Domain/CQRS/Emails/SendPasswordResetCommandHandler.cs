@@ -37,7 +37,7 @@ public class SendPasswordResetCommandHandler: EmailRequestHandlerBase, IRequestH
             throw new InvalidOperationException("Server doesn't have password reset email set.");
 
         var user = await GetByEmailOrThrowAsync(request.Email);
-        string? token = await userManager.GeneratePasswordResetTokenAsync(user);
+        var token = await userManager.GeneratePasswordResetTokenAsync(user);
         var dto = template.ToPasswordResetEmail(token: token, email: user.Email, portalUrl: options.Value.PortalUrl);
 
         await emailSender.SendEmailAsync(user.Email, dto, cancellationToken);

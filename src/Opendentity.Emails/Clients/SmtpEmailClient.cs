@@ -33,7 +33,7 @@ internal class SmtpEmailClient: IEmailClient
 
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(settings.Sender, settings.SenderDisplayName ?? settings.Sender));
-        foreach (string? recipient in recipients)
+        foreach (var recipient in recipients)
             message.To.Add(new MailboxAddress(recipient, recipient));
 
         message.Subject = subject;

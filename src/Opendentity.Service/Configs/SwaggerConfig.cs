@@ -64,7 +64,7 @@ public static class SwaggerConfig
         options.SwaggerDoc(_V1Route, new OpenApiInfo { Title = _V1Title, Version = _V1Route });
         options.DocInclusionPredicate((version, apiDescription) => apiDescription.RelativePath?.Contains($"/{version}/") ?? false);
 
-        foreach (string xmlFile in Directory.GetFiles(PlatformServices.Default.Application.ApplicationBasePath, "*.xml", SearchOption.AllDirectories))
+        foreach (var xmlFile in Directory.GetFiles(PlatformServices.Default.Application.ApplicationBasePath, "*.xml", SearchOption.AllDirectories))
             options.IncludeXmlComments(xmlFile);
     }
 }

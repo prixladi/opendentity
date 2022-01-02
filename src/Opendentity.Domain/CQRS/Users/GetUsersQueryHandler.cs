@@ -23,7 +23,7 @@ public class GetUsersQueryHandler: IRequestHandler<GetUsersQuery, UsersModel>
     {
         var query = TrySearch(request, manager.Users);
 
-        int count = await query.CountAsync(cancellationToken);
+        var count = await query.CountAsync(cancellationToken);
 
         var data = await query
             .Skip(request.Model.Offset)
@@ -79,7 +79,7 @@ public class GetUsersQueryHandler: IRequestHandler<GetUsersQuery, UsersModel>
             .ToArray();
 
         var longEnoughParts = new List<string>();
-        string current = string.Empty;
+        var current = string.Empty;
 
         foreach (var part in parts)
         {

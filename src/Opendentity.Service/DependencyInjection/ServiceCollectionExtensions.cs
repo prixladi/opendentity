@@ -71,7 +71,7 @@ public static partial class ServiceCollectionExtensions
             {
                 StatusCode = StatusCodes.Status429TooManyRequests,
                 ContentType = "application/json",
-                Content ="{" + JsonSerializer.Serialize(new RateLimitExceededModel
+                Content = "{" + JsonSerializer.Serialize(new RateLimitExceededModel
                 {
                     Message = "Slow down. Maximum allowed requests: {0} per {1}. Please try again in {2} second(s)."
                 }, Json.DefaultSerializerOptions) + "}"
